@@ -3,6 +3,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #define Allocate(type) ((type*)malloc(sizeof(type)))
 #define AllocateArray(type, count) ((type*)malloc(sizeof(type) * count))
@@ -16,19 +17,16 @@
 	#define export ;
 #endif
 
-
-typedef long long int64;
-typedef int int32;
-typedef short int16;
-typedef char int8;
-typedef unsigned long long uint64;
-typedef unsigned int uint32;
-typedef unsigned short uint16;
-typedef unsigned char uint8;
+typedef int64_t int64;
+typedef int32_t int32;
+typedef int16_t int16;
+typedef int8_t int8;
+typedef uint64_t uint64;
+typedef uint32_t uint32;
+typedef uint16_t uint16;
+typedef uint8_t uint8;
 typedef double float64;
 typedef float float32;
-typedef char boolean;
-
-export uint8 FooFunc(void);
+typedef int8 boolean;
 
 #endif
