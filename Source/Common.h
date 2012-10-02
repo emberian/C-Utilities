@@ -8,7 +8,7 @@
 #define AllocateArray(type, count) ((type*)malloc(sizeof(type) * count))
 #define true 1
 #define false 0
-#define null 0
+#define null NULL
 
 #ifdef _WIN64
 	#define export __declspec(dllexport)
