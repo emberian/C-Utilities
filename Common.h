@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <Software-Abstraction-Layer/Source/Common.h>
+#include <Software-Abstraction-Layer/Common.h>
 
 #define Allocate(type) ((type*)malloc(sizeof(type)))
 #define AllocateArray(type, count) ((type*)malloc(sizeof(type) * count))
@@ -14,7 +14,7 @@
 
 #ifdef WINDOWS
 	#define export __declspec(dllexport)
-#elif POSIX
+#elif defined POSIX
 	#define export ;
 #endif
 
