@@ -6,8 +6,17 @@
 #include <stdint.h>
 #include <SAL/Common.h>
 
+/**
+ * @returns a pointer to a block of memory at least the sizeof @a type.
+ */
 #define Allocate(type) ((type*)malloc(sizeof(type)))
+
+/**
+ * @returns a pointer to a block of memory large enough to contain @a count
+ * objects of size @a type.
+ */
 #define AllocateArray(type, count) ((type*)malloc(sizeof(type) * count))
+
 #define true 1
 #define false 0
 #define null NULL
