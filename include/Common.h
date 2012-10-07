@@ -13,9 +13,16 @@
 #define null NULL
 
 #ifdef WINDOWS
-	#define export __declspec(dllexport)
-#elif defined POSIX
-	#define export ;
+	#define public  __declspec(dllexport)
+#elif defined __clang__ || defined __GNUC__
+	#define public __attribute__((visibility ("default")))
+#endif
+
+#ifdef WINDOWS
+// Windows is private by default
+  #define private ;
+#elif defined __clang__ || defined __GNUC__
+  #define private __attribute__((visibility ("hidden")))
 #endif
 
 typedef int64_t int64;
