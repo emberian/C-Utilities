@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <Software-Abstraction-Layer/Common.h>
+#include <SAL/Common.h>
 
 #define Allocate(type) ((type*)malloc(sizeof(type)))
 #define AllocateArray(type, count) ((type*)malloc(sizeof(type) * count))
