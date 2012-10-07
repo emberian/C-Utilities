@@ -1,9 +1,10 @@
-#ifndef INCLUDE_COMMON
-#define INCLUDE_COMMON
+#ifndef CUTILITIES_INCLUDE_COMMON
+#define CUTILITIES_INCLUDE_COMMON
 
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <Software-Abstraction-Layer/Common.h>
 
 #define Allocate(type) ((type*)malloc(sizeof(type)))
 #define AllocateArray(type, count) ((type*)malloc(sizeof(type) * count))
@@ -11,9 +12,9 @@
 #define false 0
 #define null NULL
 
-#ifdef _WIN64
+#ifdef WINDOWS
 	#define export __declspec(dllexport)
-#elif __unix__
+#elif defined POSIX
 	#define export ;
 #endif
 
