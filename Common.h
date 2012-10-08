@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <SAL/Common.h>
+#include <Software-Abstraction-Layer/Common.h>
 
 /**
  * @returns a pointer to a block of memory at least the sizeof @a type.
