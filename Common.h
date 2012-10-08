@@ -17,6 +17,12 @@
  */
 #define AllocateArray(type, count) ((type*)malloc(sizeof(type) * count))
 
+/**
+ * Frees a block of memory allocated by Allocate or AllocateArray
+ * @param pointer The block of memory to free
+ */
+#define Free(pointer) free(pointer)
+
 #define true 1
 #define false 0
 #define null NULL
