@@ -1,4 +1,5 @@
 #include "LinkedList.h"
+#include "Memory.h"
 
 LinkedList* LinkedList_New(NodeDataDisposer itemDisposer) {
 	LinkedList* list;
@@ -12,7 +13,7 @@ LinkedList* LinkedList_New(NodeDataDisposer itemDisposer) {
 void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer) {
     assert(list != NULL);
 
-    if (itemDisposer == NULL) itemDisposer = free;
+    if (itemDisposer == NULL) itemDisposer = Memory_Free;
 
     list->Count = 0;
     list->First = NULL;

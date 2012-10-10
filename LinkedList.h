@@ -19,7 +19,7 @@ typedef struct {
 	NodeDataDisposer Disposer;
 } LinkedList;
 
-public LinkedList* List_New(NodeDataDisposer itemDisposer);
+public LinkedList* LinkedList_New(NodeDataDisposer itemDisposer);
 public void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer);
 public void LinkedList_Dispose(LinkedList* self);
 

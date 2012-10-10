@@ -2,35 +2,7 @@
 #define INCLUDE_UTILITIES_COMMON
 
 #include <assert.h>
-#include <stdlib.h>
-#include <stdint.h>
 #include <SAL/Common.h>
-
-/**
- * @returns a pointer to a block of memory at least the sizeof @a type.
- */
-#define Allocate(type) ((type*)malloc(sizeof(type)))
-
-/**
- * @returns a pointer to a block of memory large enough to contain @a count
- * objects of size @a type.
- */
-#define AllocateArray(type, count) ((type*)malloc(sizeof(type) * count))
-
-/**
- * @returns a pointer to a block of memory large enough to contain @a count
- * objects of size @a type.
- */
-#define ReallocateArray(type, count, array) ((type*)realloc(array, sizeof(type) * count))
-
-/**
- * Frees a block of memory allocated by Allocate or AllocateArray
- * @param pointer The block of memory to free
- */
-#define Free(pointer) free(pointer)
-
-#define true 1
-#define false 0
 
 #ifdef WINDOWS
 	#define public  __declspec(dllexport)
@@ -45,16 +17,22 @@
   #define private __attribute__((visibility ("hidden")))
 #endif
 
-typedef int64_t int64;
-typedef int32_t int32;
-typedef int16_t int16;
-typedef int8_t int8;
-typedef uint64_t uint64;
-typedef uint32_t uint32;
-typedef uint16_t uint16;
-typedef uint8_t uint8;
+#define true 1
+#define false 0
+#define NULL 0
+
+typedef long long int64;
+typedef int int32;
+typedef short int16;
+typedef char int8;
+typedef unsigned long long uint64;
+typedef unsigned int uint32;
+typedef unsigned short uint16;
+typedef unsigned char uint8;
 typedef double float64;
 typedef float float32;
 typedef int8 boolean;
+
+#include "Memory.h"
 
 #endif

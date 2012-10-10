@@ -11,7 +11,7 @@ String* String_New(uint16 size) {
 	return string;
 }
 
-String* String_NewFromCString(const char* cString) {
+String* String_NewFromCString(const int8* cString) {
 	String* string;
     uint16 size;
 
@@ -39,7 +39,7 @@ void String_Dispose(String* self) {
 	Free(self);
 }
 
-void String_AppendCString(String* self, const char* cString) {
+void String_AppendCString(String* self, const int8* cString) {
     uint16 size;
     
 	assert(self != NULL);

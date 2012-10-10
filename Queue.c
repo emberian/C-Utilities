@@ -12,7 +12,7 @@ Queue* Queue_New(void) {
 void Queue_Initialize(Queue* queue) {
     assert(queue != NULL);
 
-    LinkedList_Initialize(&queue->Data, free);
+    LinkedList_Initialize(&queue->Data, Memory_Free);
 }
 
 void Queue_Dispose(Queue* self) {

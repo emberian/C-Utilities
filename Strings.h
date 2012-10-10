@@ -11,12 +11,12 @@ typedef struct {
 
 
 public String* String_New(uint16 size);
-public String* String_NewFromCString(const char* cString);
+public String* String_NewFromCString(const int8* cString);
 public void String_Initialize(String* string, uint16 size);
 
 public void String_Dispose(String* self);
 
-public void String_AppendCString(String* self, const char* cString);
+public void String_AppendCString(String* self, const int8* cString);
 public void String_AppendBytes(String* self, const int8* bytes, uint16 size);
 public void String_AppendString(String* self, String* source);
 
