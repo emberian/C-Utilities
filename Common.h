@@ -1,5 +1,5 @@
-#ifndef CUTILITIES_INCLUDE_COMMON
-#define CUTILITIES_INCLUDE_COMMON
+#ifndef INCLUDE_UTILITIES_COMMON
+#define INCLUDE_UTILITIES_COMMON
 
 #include <assert.h>
 #include <stdlib.h>
@@ -16,6 +16,12 @@
  * objects of size @a type.
  */
 #define AllocateArray(type, count) ((type*)malloc(sizeof(type) * count))
+
+/**
+ * @returns a pointer to a block of memory large enough to contain @a count
+ * objects of size @a type.
+ */
+#define ReallocateArray(type, count, array) ((type*)realloc(array, sizeof(type) * count))
 
 /**
  * Frees a block of memory allocated by Allocate or AllocateArray
