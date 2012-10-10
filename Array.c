@@ -41,7 +41,7 @@ Array* Array_NewFromExisting(uint8* data, uint64 size) {
     array = Allocate(Array);
     array->Size = size;
     array->Allocation = actualSize;
-    array->Data = ReallocateArray(uint8, actualSize, data); // XXX: copy?
+    array->Data = ReallocateArray(uint8, actualSize, data); /* XXX: copy? */
 
     return array;
 }

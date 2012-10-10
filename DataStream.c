@@ -242,7 +242,7 @@ float64 DataStream_ReadFloat64(DataStream* self) {
 	return result;
 }
 
-//should this return a pointer within the backing data store itself or create a new allocation and return that?
+/*should this return a pointer within the backing data store itself or create a new allocation and return that?*/
 uint8* DataStream_ReadBytes(DataStream* self, uint64 count) {
 	uint8* result;
 
