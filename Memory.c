@@ -43,3 +43,16 @@ void Memory_Free(void* block) {
         free(block);
     #endif
 }
+
+void Memory_BlockCopy(const uint8* source, uint8* destination, uint64 amount) {
+    uint8 rem = amount % 4;
+    uint8 i;
+
+    if (amount > 0) {
+        for (; amount >= 8; amount -= 8) 
+            *(uint64*)(destination + amount) = *(uint64*)(source + amount);
+
+        for (i = 0; i < rem; i++)
+            *(uint8*)(destination + i) = *(source + i);
+    }
+}

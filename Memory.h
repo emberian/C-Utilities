@@ -4,6 +4,7 @@
 #include "Common.h"
 
 public void Memory_Free(void* block);
+public void Memory_BlockCopy(const uint8* source, uint8* destination, uint64 amount);
 
 /**
  * Frees a block of memory allocated by Allocate or AllocateArray

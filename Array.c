@@ -5,6 +5,8 @@
  */
 #include "Array.h"
 
+#define MINIMUM_SIZE 32
+
 /**
  * Create a new array.
  *
@@ -27,21 +29,24 @@ Array* Array_New(uint64 size) {
  * @param size New size of array
  * @returns pointer to newly created array
  */
-Array* Array_NewFromExisting(uint8* data, uint64 size) {
+Array* Array_NewFromExisting(const uint8* data, uint64 size) {
     Array* array;
     uint64 actualSize;
+    int8 i;
     
     assert(size > 0);
     assert(data != NULL);
     
-    actualSize = 32;
+    actualSize = MINIMUM_SIZE;
     while (actualSize < size)
         actualSize *= 2;
 
     array = Allocate(Array);
     array->Size = size;
     array->Allocation = actualSize;
-    array->Data = ReallocateArray(uint8, actualSize, data); /* XXX: copy? */
+    array->Data = AllocateArray(uint8, size);
+    
+    Memory_BlockCopy(data, array->Data, size);
 
     return array;
 }
@@ -57,7 +62,7 @@ void Array_Initialize(Array* array, uint64 size) {
 
     assert(array != NULL);
 
-    actualSize = 32;
+    actualSize = MINIMUM_SIZE;
     while (actualSize < size)
         actualSize *= 2;
         
@@ -92,7 +97,7 @@ void Array_Resize(Array* self, uint64 newSize) {
     assert(newSize > 0);
     assert(self != NULL);
 
-    actualSize = self->Allocation;
+    actualSize = MINIMUM_SIZE;
     while (actualSize < newSize)
         actualSize *= 2;
 
@@ -116,6 +121,23 @@ uint8* Array_Read(Array* self, uint64 position, uint64 amount) {
 }
 
 /**
+ * Read bytes from an array into a user supplied buffer.
+ *
+ * @param self Array to read from
+ * @param position Offset (in bytes) from start of the array to read from
+ * @param amount Number of bytes to read
+ * @param the Buffer in which the read bytes will be placed
+ */
+void Array_ReadTo(Array* self, uint64 position, uint64 amount, uint8* targetBuffer) {
+    int8 i;
+
+    assert(self != NULL && targetBuffer != NULL);
+    assert(position + amount <= self->Size);
+    
+    Memory_BlockCopy(self->Data + position, targetBuffer, amount);
+}
+
+/**
  * Write data to an array, resizing if needed.
  *
  * @param self Array to write to
@@ -130,8 +152,7 @@ void Array_Write(Array* self, const uint8* data, uint64 position, uint64 amount)
     
     if (position + amount > self->Size) Array_Resize(self, position + amount);
 
-    for (i = 0; i < amount; i++)
-        *(self->Data + position + i) = *(data + i);
+    Memory_BlockCopy(data, self->Data + position, amount);
 }
 
 /**
@@ -140,7 +161,7 @@ void Array_Write(Array* self, const uint8* data, uint64 position, uint64 amount)
  * @param self Array to append to
  * @param source Array to append from
  */
-void Array_Append(Array* self, Array* source) {
+void Array_Append(Array* self, const Array* source) {
     assert(self != NULL && source != NULL);
 
     Array_Resize(self, self->Size + source->Size);
