@@ -76,7 +76,6 @@ void Array_Write(Array* self, const uint8* data, uint64 position, uint64 amount)
     uint8 i;
 
     assert(self != NULL);
-    assert(position >= 0 && amount >= 0);
     
     if (position + amount > self->Size) Array_Resize(self, position + amount);
 

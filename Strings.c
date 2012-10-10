@@ -11,11 +11,11 @@ String* String_New(uint16 size) {
 	return string;
 }
 
-String* String_NewFromCString(const int8* cString) {
+String* String_NewFromCString(const char* cString) {
 	String* string;
-    uint64 size;
+    uint16 size;
 
-    size = strlen((const char*)cString);
+    size = (uint16)strlen(cString);
 
 	string = Allocate(String);
 	String_Initialize(string, size);
@@ -39,13 +39,13 @@ void String_Dispose(String* self) {
 	Free(self);
 }
 
-void String_AppendCString(String* self, const int8* cString) {
-    uint64 size;
+void String_AppendCString(String* self, const char* cString) {
+    uint16 size;
     
 	assert(self != NULL);
 	assert(cString != NULL);
 
-    size = strlen((const char*)cString);
+    size = (uint16)strlen(cString);
 
     Array_Write(&self->Data, (const uint8*)cString, self->Length, size);
     self->Length += size;

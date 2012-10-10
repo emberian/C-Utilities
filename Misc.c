@@ -1,7 +1,7 @@
 #include "Misc.h"
 
 void Base64Encode(uint8* data, uint32 dataLength, int8** result, uint32* resultLength) {
-	static const int8* characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+	static const char* characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     static const int32 mask = 0x3F;
 	uint32 i, j, left;
 
