@@ -13,7 +13,7 @@ typedef struct {
 
 public DataStream* DataStream_New(uint64 allocation);
 public void DataStream_Initialize(DataStream* dataStream, uint64 allocation);
-public void DataStream_Dispose(DataStream* self);
+public void DataStream_Free(DataStream* self);
 
 public void DataStream_Seek(DataStream* self, uint64 position);
 

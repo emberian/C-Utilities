@@ -11,7 +11,7 @@ typedef struct {
 
 public Stack* Stack_New(uint64 size);
 public void Stack_Initialize(Stack* stack, uint64 size);
-public void Stack_Dispose(Stack* self);
+public void Stack_Free(Stack* self);
 public void Stack_PushUInt64(Stack* self, uint64 value);
 public void Stack_PushUInt32(Stack* self, uint32 value);
 public void Stack_PushUInt16(Stack* self, uint16 value);

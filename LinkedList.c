@@ -22,7 +22,7 @@ void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer) {
     list->Disposer = itemDisposer;
 }
 
-void LinkedList_Dispose(LinkedList* self) {
+void LinkedList_Free(LinkedList* self) {
     assert(self != NULL);
 
 	while (self->First != NULL) {

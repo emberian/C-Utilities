@@ -21,7 +21,7 @@ typedef struct {
 
 public LinkedList* LinkedList_New(NodeDataDisposer itemDisposer);
 public void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer);
-public void LinkedList_Dispose(LinkedList* self);
+public void LinkedList_Free(LinkedList* self);
 
 public Node* LinkedList_FindNode(LinkedList* self, void* toFind);
 public void LinkedList_ResetIterator(LinkedList* self);

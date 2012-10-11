@@ -30,10 +30,10 @@ void String_Initialize(String* string, uint16 size) {
     Array_Initialize(&string->Data, size);
 }
 
-void String_Dispose(String* self) {
+void String_Free(String* self) {
 	assert(self != NULL);
 
-    Array_Dispose(&self->Data);
+    Array_Free(&self->Data);
     self->Length = 0;
 	
 	Free(self);

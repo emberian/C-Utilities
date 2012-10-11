@@ -23,10 +23,10 @@ void DataStream_Initialize(DataStream* dataStream, uint64 allocation) {
     Array_Initialize(&dataStream->Data, actualSize);
 }
 
-void DataStream_Dispose(DataStream* self) {
+void DataStream_Free(DataStream* self) {
 	assert(self != NULL);
 
-	Array_Dispose(&self->Data);
+	Array_Free(&self->Data);
     self->Cursor = 0;
 
 	Free(self);
@@ -101,7 +101,7 @@ void DataStream_WriteArray(DataStream* self, Array* array, boolean disposeArray)
     Array_Append(&self->Data, array);
 
     if (disposeArray)
-        Array_Dispose(array);
+        Array_Free(array);
 }
 
 void DataStream_WriteString(DataStream* self, String* string, boolean disposeString) {
@@ -109,7 +109,7 @@ void DataStream_WriteString(DataStream* self, String* string, boolean disposeStr
 	DataStream_WriteArray(self, &string->Data, false);
 
 	if (disposeString)
-		String_Dispose(string);
+		String_Free(string);
 }
 
 int8 DataStream_ReadInt8(DataStream* self) {

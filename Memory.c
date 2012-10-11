@@ -22,13 +22,13 @@
 
     //add a record of the allocation to allocations and remove it on FreeD()
     void* Memory_AllocateD(uint64 size, uint64 line, const int8* file) {
-        if (!allocationsInitialized) allocations = LinkedList_New( ( void(*)(void*) ) String_Dispose);
+        if (!allocationsInitialized) allocations = LinkedList_New( ( void(*)(void*) ) String_Free);
 
         return malloc(size);
     }
 
     void* Memory_ReallocateD(void* block, uint64 size, uint64 line, const int8* file) {
-        if (!allocationsInitialized) allocations = LinkedList_New( ( void(*)(void*) ) String_Dispose);
+        if (!allocationsInitialized) allocations = LinkedList_New( ( void(*)(void*) ) String_Free);
 
         return realloc(block, size);
     }

@@ -77,7 +77,7 @@ void Array_Initialize(Array* array, uint64 size) {
  * @param self Array to dispose of.
  * @warning @a self is not freed!
  */
-void Array_Dispose(Array* self) {
+void Array_Free(Array* self) {
     assert(self != NULL);
 
     Free(self->Data);

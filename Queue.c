@@ -15,10 +15,10 @@ void Queue_Initialize(Queue* queue) {
     LinkedList_Initialize(&queue->Data, Memory_Free);
 }
 
-void Queue_Dispose(Queue* self) {
+void Queue_Free(Queue* self) {
     assert(self != NULL);
 
-    LinkedList_Dispose(&self->Data);
+    LinkedList_Free(&self->Data);
 }
 
 void* Queue_Dequeue(Queue* self) {

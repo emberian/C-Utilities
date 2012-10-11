@@ -12,11 +12,10 @@ public void Memory_BlockCopy(const uint8* source, uint8* destination, uint64 amo
  */
 #define Free(pointer) Memory_Free(pointer)
 
-
 #ifdef NDEBUG
 
-    public void* Memory_Allocate(uint64 size, uint64 line, const int8* file);
-    public void* Memory_Reallocate(void* block, uint64 size, uint64 line, const int8* file);
+    public void* Memory_Allocate(uint64 size);
+    public void* Memory_Reallocate(void* block, uint64 size);
 
     /**
      * @returns a pointer to a block of memory at least the sizeof @a type.

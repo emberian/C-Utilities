@@ -15,8 +15,8 @@ void Stack_Initialize(Stack* stack, uint64 size) {
     Array_Initialize(&stack->Data, size);
 }
 
-void Stack_Dispose(Stack* self) {
-    Array_Dispose(&self->Data);
+void Stack_Free(Stack* self) {
+    Array_Free(&self->Data);
     self->Pointer = 0;
 }
 
