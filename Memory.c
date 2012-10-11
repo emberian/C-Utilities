@@ -22,13 +22,13 @@
 
     //add a record of the allocation to allocations and remove it on FreeD()
     void* Memory_AllocateD(uint64 size, uint64 line, const int8* file) {
-        if (!allocationsInitialized) allocations = LinkedList_New( ( void(*)(void*) ) String_Free);
+        /*if (!allocationsInitialized) allocations = LinkedList_New( ( void(*)(void*) ) String_Free);*/
 
         return malloc(size);
     }
 
     void* Memory_ReallocateD(void* block, uint64 size, uint64 line, const int8* file) {
-        if (!allocationsInitialized) allocations = LinkedList_New( ( void(*)(void*) ) String_Free);
+        /*if (!allocationsInitialized) allocations = LinkedList_New( ( void(*)(void*) ) String_Free);*/
 
         return realloc(block, size);
     }
@@ -45,14 +45,13 @@ void Memory_Free(void* block) {
 }
 
 void Memory_BlockCopy(const uint8* source, uint8* destination, uint64 amount) {
-    uint8 rem = amount % 4;
     uint8 i;
 
     if (amount > 0) {
         for (; amount >= 8; amount -= 8) 
-            *(uint64*)(destination + amount) = *(uint64*)(source + amount);
+            *(uint64*)(destination + amount - 8) = *(uint64*)(source + amount - 8);
 
-        for (i = 0; i < rem; i++)
+        for (i = 0; i < amount; i++)
             *(uint8*)(destination + i) = *(source + i);
     }
 }

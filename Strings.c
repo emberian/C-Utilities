@@ -20,6 +20,7 @@ String* String_NewFromCString(const int8* cString) {
 	string = Allocate(String);
 	String_Initialize(string, size);
 
+    string->Length = 0;
     String_AppendCString(string, cString);
 
 	return string;
