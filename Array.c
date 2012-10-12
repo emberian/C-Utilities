@@ -32,7 +32,6 @@ Array* Array_New(uint64 size) {
 Array* Array_NewFromExisting(const uint8* data, uint64 size) {
     Array* array;
     uint64 actualSize;
-    int8 i;
     
     assert(size > 0);
     assert(data != NULL);
