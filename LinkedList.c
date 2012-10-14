@@ -60,28 +60,46 @@ Node* LinkedList_FindNode(LinkedList* self, void* toFind) {
 	return current;
 }
 
-void LinkedList_ResetIterator(LinkedList* self) {
-	assert(self != NULL);
-	
-	self->Current = self->First;
-}
-
-//resets itself when the end of the list is reached, but returns null first to allow for loop termination
-void* LinkedList_Iterate(LinkedList* self) {
+void* LinkedList_Iterate(LinkedList_Iterator* iterator) {
 	void* data;
 	
-	assert(self != NULL);
+	assert(iterator != NULL);
 	
 	data = NULL;
 
-	if (self->Current) {
-		data = self->Current->Data;
-        self->Current = self->Current->Next;
+	if (iterator->Position) {
+		data = iterator->Position->Data;
+        iterator->Position = iterator->Position->Next;
+        iterator->Index++;
 	}
-    else
-        LinkedList_ResetIterator(self);
 
 	return data;
+}
+
+LinkedList_Iterator* LinkedList_BeginIterate(LinkedList* self) {
+    LinkedList_Iterator* iterator;
+
+	assert(self != NULL);
+
+    iterator = Allocate(LinkedList_Iterator);
+    iterator->Index = 0;
+    iterator->List = self;
+    iterator->Position = self->First;
+
+    return iterator;
+}
+
+void LinkedList_EndIterate(LinkedList_Iterator* iterator) {
+	assert(iterator != NULL);
+
+    Free(iterator);
+}
+
+void LinkedList_ResetIterator(LinkedList_Iterator* iterator) {
+	assert(iterator != NULL);
+	
+	iterator->Position = iterator->List->First;
+    iterator->Index = 0;
 }
 
 void LinkedList_Remove(LinkedList* self, void* data) {
