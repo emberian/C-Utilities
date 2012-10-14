@@ -25,11 +25,8 @@ typedef struct {
     uint64 Index;
 } LinkedList_Iterator;
 
-#define LinkedList_ForEach(current, iterator, type) LinkedList_ResetIterator(iterator); while ((current = (type*)LinkedList_Iterate(iterator)) != NULL)
+#define LinkedList_ForEach(current, iterator, type) LinkedList_ResetIterator(iterator); while (current = (type*)LinkedList_Iterate(iterator))
 #define LinkedList_IterateNext(current, iterator, type) current = (type*)LinkedList_Iterate(iterator)
-
-/* iterates from the current location in the list, does not reset the pointer to the beginning */
-#define LinkedList_ForCurrent(current, iterator, type) while ((current = (type*)LinkedList_Iterate(iterator)) != NULL)
 
 public LinkedList* LinkedList_New(NodeDataDisposer itemDisposer);
 public void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer);
