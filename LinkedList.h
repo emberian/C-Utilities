@@ -30,8 +30,9 @@ typedef struct LinkedList_Iterator {
     uint64 Index;
 } LinkedList_Iterator;
 
-#define LinkedList_ForEach(current, list, type) LinkedList_ResetIterator((list)->DefaultIterator); while (current = (type*)LinkedList_Iterate((list)->DefaultIterator))
-#define LinkedList_IterateNext(current, iterator, type) (current = (type*)LinkedList_Iterate(iterator))
+#define LinkedList_ForEach(current, list, type) LinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (type*)LinkedList_Iterate((list)->DefaultIterator))
+#define LinkedList_ForEachPtr(current, list, pointerType) LinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (pointerType)LinkedList_Iterate((list)->DefaultIterator))
+#define LinkedList_IterateNext(current, iterator, type) ((current) = (type*)LinkedList_Iterate(iterator))
 
 public LinkedList* LinkedList_New(NodeDataDisposer itemDisposer);
 public void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer);

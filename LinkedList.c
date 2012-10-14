@@ -37,7 +37,7 @@ void LinkedList_Free(LinkedList* self) {
     self->Disposer = NULL;
     self->First = NULL;
     self->Last = NULL;
-    Free(self->DefaultIterator);
+    LinkedList_EndIterate(self->DefaultIterator);
 	
 	Free(self);
 }
