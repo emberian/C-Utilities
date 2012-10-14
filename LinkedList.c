@@ -66,6 +66,7 @@ void LinkedList_ResetIterator(LinkedList* self) {
 	self->Current = self->First;
 }
 
+//resets itself when the end of the list is reached, but returns null first to allow for loop termination
 void* LinkedList_Iterate(LinkedList* self) {
 	void* data;
 	
@@ -77,6 +78,8 @@ void* LinkedList_Iterate(LinkedList* self) {
 		data = self->Current->Data;
         self->Current = self->Current->Next;
 	}
+    else
+        LinkedList_ResetIterator(self);
 
 	return data;
 }
