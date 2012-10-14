@@ -18,8 +18,8 @@ void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer) {
     list->Count = 0;
     list->First = NULL;
     list->Last = NULL;
-    list->Current = NULL;
     list->Disposer = itemDisposer;
+    list->DefaultIterator = LinkedList_BeginIterate(list);
 }
 
 void LinkedList_Free(LinkedList* self) {
@@ -34,10 +34,10 @@ void LinkedList_Free(LinkedList* self) {
 	}
 
     self->Count = 0;
-    self->Current = NULL;
     self->Disposer = NULL;
     self->First = NULL;
     self->Last = NULL;
+    Free(self->DefaultIterator);
 	
 	Free(self);
 }
@@ -54,8 +54,6 @@ Node* LinkedList_FindNode(LinkedList* self, void* toFind) {
 
 		current = current->Next;
 	}
-
-	self->Current = self->First;
 
 	return current;
 }
@@ -125,21 +123,14 @@ void LinkedList_RemoveNode(LinkedList* self, Node* node) {
 	if (self->First == self->Last) {
 		self->First = NULL;
 		self->Last = NULL;
-		self->Current = NULL;
 	}
 	else if (self->First == node) {
 		self->First = node->Next;
 		self->First->Prev = NULL;
-
-		if (self->Current == node)
-			self->Current = self->First;
 	}
 	else if (self->Last == node) {
 		self->Last = node->Prev;
 		self->Last->Next = NULL;
-
-		if (self->Current == node)
-			self->Current = self->Last;
 	}
 	else {
 		node->Prev->Next = node->Next;
@@ -175,7 +166,6 @@ void LinkedList_Prepend(LinkedList* self, void* data) {
 		node->Next = NULL;
 		self->First = node;
 		self->Last = node;
-		self->Current = node;
 	}
 
 	self->Count++;
@@ -199,30 +189,28 @@ void LinkedList_Append(LinkedList* self, void* data) {
 		node->Prev = NULL;
 		self->First = node;
 		self->Last = node;
-		self->Current = node;
 	}
 
 	self->Count++;
 }
 
-void LinkedList_Insert(LinkedList* self, void* data) {
+void LinkedList_Insert(LinkedList_Iterator* iterator, void* data) {
 	Node* node;
+	
+    assert(iterator != NULL && data != NULL);
 
-	assert(self != NULL && data != NULL);
-  
-	if (self->Current == NULL) {
-		LinkedList_Append(self, data);
+	if (iterator->Position == NULL) {
+		LinkedList_Append(iterator->List, data);
 	}
 	else {
 		node = Allocate(Node);
 		node->Data = data;
 
-		node->Prev = self->Current;
-		node->Next = self->Current->Next;
-		self->Current->Next->Prev = node;
-		self->Current->Next = node;
-		self->Current = node;
+		node->Prev = iterator->Position;
+		node->Next = iterator->Position->Next;
+		iterator->Position->Next->Prev = node;
+		iterator->Position->Next = node;
 	}
 
-	self->Count++;
+	iterator->List->Count++;
 }

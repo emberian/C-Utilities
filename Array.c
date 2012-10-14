@@ -128,8 +128,6 @@ uint8* Array_Read(Array* self, uint64 position, uint64 amount) {
  * @param the Buffer in which the read bytes will be placed
  */
 void Array_ReadTo(Array* self, uint64 position, uint64 amount, uint8* targetBuffer) {
-    int8 i;
-
     assert(self != NULL && targetBuffer != NULL);
     assert(position + amount <= self->Size);
     

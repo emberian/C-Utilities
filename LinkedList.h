@@ -5,28 +5,33 @@
 
 typedef void (*NodeDataDisposer)(void*);
 
-typedef struct _Node {
+/* forward declarations */
+struct Node;
+struct LinkedList;
+struct LinkedList_Iterator;
+
+typedef struct Node {
 	void* Data;
-	struct _Node* Prev;
-	struct _Node* Next;
+	struct Node* Prev;
+	struct Node* Next;
 } Node;
 
-typedef struct {
+typedef struct LinkedList {
 	Node* First;
 	Node* Last;
-	Node* Current;
+	struct LinkedList_Iterator* DefaultIterator;
 	uint64 Count;
 	NodeDataDisposer Disposer;
 } LinkedList;
 
-typedef struct {
+typedef struct LinkedList_Iterator {
     LinkedList* List;
     Node* Position;
     uint64 Index;
 } LinkedList_Iterator;
 
-#define LinkedList_ForEach(current, iterator, type) LinkedList_ResetIterator(iterator); while (current = (type*)LinkedList_Iterate(iterator))
-#define LinkedList_IterateNext(current, iterator, type) current = (type*)LinkedList_Iterate(iterator)
+#define LinkedList_ForEach(current, list, type) LinkedList_ResetIterator((list)->DefaultIterator); while (current = (type*)LinkedList_Iterate((list)->DefaultIterator))
+#define LinkedList_IterateNext(current, iterator, type) (current = (type*)LinkedList_Iterate(iterator))
 
 public LinkedList* LinkedList_New(NodeDataDisposer itemDisposer);
 public void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer);
@@ -42,6 +47,6 @@ public void LinkedList_Remove(LinkedList* self, void* data);
 public void LinkedList_RemoveNode(LinkedList* self, Node* node);
 public void LinkedList_Prepend(LinkedList* self, void* data);
 public void LinkedList_Append(LinkedList* self, void* data);
-public void LinkedList_Insert(LinkedList* self, void* data);
+public void LinkedList_Insert(LinkedList_Iterator* iterator, void* data);
 
 #endif
