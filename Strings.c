@@ -32,12 +32,15 @@ void String_Initialize(String* string, uint16 size) {
 }
 
 void String_Free(String* self) {
+    String_Uninitialize(self);
+	Free(self);
+}
+
+void String_Uninitialize(String* self) {
 	assert(self != NULL);
 
     Array_Free(&self->Data);
     self->Length = 0;
-	
-	Free(self);
 }
 
 void String_AppendCString(String* self, const int8* cString) {

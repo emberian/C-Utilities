@@ -24,12 +24,16 @@ void DataStream_Initialize(DataStream* dataStream, uint64 allocation) {
 }
 
 void DataStream_Free(DataStream* self) {
+    DataStream_Uninitialize(self);
+    Free(self);
+}
+
+void DataStream_Uninitialize(DataStream* self) {
 	assert(self != NULL);
 
 	Array_Free(&self->Data);
     self->Cursor = 0;
-
-	Free(self);
+    self->IsEOF = true;
 }
 
 void DataStream_Seek(DataStream* self, uint64 position) {

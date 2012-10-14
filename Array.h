@@ -13,6 +13,7 @@ public Array* Array_New(uint64 size);
 public Array* Array_NewFromExisting(const uint8* data, uint64 size);
 public void Array_Initialize(Array* array, uint64 size);
 public void Array_Free(Array* self);
+public void Array_Uninitialize(Array* self);
 
 public void Array_Resize(Array* self, uint64 newSize);
 public uint8* Array_Read(Array* self, uint64 position, uint64 amount);

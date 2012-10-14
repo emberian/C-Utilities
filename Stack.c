@@ -16,6 +16,11 @@ void Stack_Initialize(Stack* stack, uint64 size) {
 }
 
 void Stack_Free(Stack* self) {
+    Stack_Uninitialize(self);
+    Free(self);
+}
+
+void Stack_Uninitialize(Stack* self) {
     Array_Free(&self->Data);
     self->Pointer = 0;
 }

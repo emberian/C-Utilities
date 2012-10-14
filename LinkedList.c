@@ -23,6 +23,12 @@ void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer) {
 }
 
 void LinkedList_Free(LinkedList* self) {
+    LinkedList_Uninitialize(self);
+	
+	Free(self);
+}
+
+void LinkedList_Uninitialize(LinkedList* self) {
     assert(self != NULL);
 
 	while (self->First != NULL) {
@@ -38,8 +44,6 @@ void LinkedList_Free(LinkedList* self) {
     self->First = NULL;
     self->Last = NULL;
     LinkedList_EndIterate(self->DefaultIterator);
-	
-	Free(self);
 }
 
 Node* LinkedList_FindNode(LinkedList* self, void* toFind) {

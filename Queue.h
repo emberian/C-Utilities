@@ -11,6 +11,7 @@ typedef struct {
 public Queue* Queue_New(void);
 public void Queue_Initialize(Queue* queue);
 public void Queue_Free(Queue* self);
+public void Queue_Uninitialize(Queue* self);
 
 public void* Queue_Dequeue(Queue* self);
 public void Queue_Enqueue(Queue* self, void* toEnqueue);

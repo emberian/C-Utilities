@@ -16,6 +16,11 @@ void Queue_Initialize(Queue* queue) {
 }
 
 void Queue_Free(Queue* self) {
+    Queue_Uninitialize(self);
+    Free(self);
+}
+
+void Queue_Uninitialize(Queue* self) {
     assert(self != NULL);
 
     LinkedList_Free(&self->Data);

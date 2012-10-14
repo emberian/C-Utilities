@@ -74,9 +74,13 @@ void Array_Initialize(Array* array, uint64 size) {
  * Free the data + deinitialize an array.
  *
  * @param self Array to dispose of.
- * @warning @a self is not freed!
  */
 void Array_Free(Array* self) {
+    Array_Uninitialize(self);
+    Free(self);
+}
+
+void Array_Uninitialize(Array* self) {
     assert(self != NULL);
 
     Free(self->Data);

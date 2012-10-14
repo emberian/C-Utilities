@@ -37,6 +37,7 @@ typedef struct LinkedList_Iterator {
 public LinkedList* LinkedList_New(NodeDataDisposer itemDisposer);
 public void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer);
 public void LinkedList_Free(LinkedList* self);
+public void LinkedList_Uninitialize(LinkedList* self);
 
 public Node* LinkedList_FindNode(LinkedList* self, void* toFind);
 public void* LinkedList_Iterate(LinkedList_Iterator* iterator);
