@@ -86,7 +86,7 @@ void* LinkedList_Iterate(LinkedList_Iterator* iterator) {
 
 	data = NULL;
 
-	if (iterator->Position) {
+	if (iterator->Position && iterator->List->Count != 0) {
 		data = iterator->Position->Data;
 		iterator->Position = iterator->Position->Next;
 		iterator->Index++;
