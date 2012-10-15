@@ -102,6 +102,21 @@ void LinkedList_ResetIterator(LinkedList_Iterator* iterator) {
     iterator->Index = 0;
 }
 
+void LinkedList_Clear(LinkedList* self) {
+	while (self->First != NULL) {
+		if (self->Disposer)
+			self->Disposer(self->First->Data);
+
+		self->First = self->First->Next;
+		Free(self->First->Prev);
+	}
+
+    self->First = NULL;
+    self->Last = NULL;
+	self->Count = 0;
+	LinkedList_ResetIterator(self->DefaultIterator);
+}
+
 void LinkedList_Remove(LinkedList* self, void* data) {
 	Node* node;
 	

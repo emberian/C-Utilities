@@ -48,6 +48,7 @@ public LinkedList_Iterator* LinkedList_BeginIterate(LinkedList* self);
 public void LinkedList_EndIterate(LinkedList_Iterator* iterator);
 public void LinkedList_ResetIterator(LinkedList_Iterator* iterator);
 
+public void LinkedList_Clear(LinkedList* self);
 public void LinkedList_Remove(LinkedList* self, void* data);
 public void LinkedList_RemoveNode(LinkedList* self, Node* node);
 public void LinkedList_Prepend(LinkedList* self, void* data);
