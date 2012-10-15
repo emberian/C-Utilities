@@ -3,48 +3,48 @@
 DataStream* DataStream_New(uint64 allocation) {
 	DataStream* dataStream;
 
-    dataStream = Allocate(DataStream);
-    DataStream_Initialize(dataStream, allocation);
+	dataStream = Allocate(DataStream);
+	DataStream_Initialize(dataStream, allocation);
 
 	return dataStream;
 }
 
 void DataStream_Initialize(DataStream* dataStream, uint64 allocation) {
-    uint64 actualSize;
+	uint64 actualSize;
 
-    assert(dataStream != NULL);
+	assert(dataStream != NULL);
 
-    actualSize = 32;
-    while (actualSize < allocation);
-        actualSize *= 2;
+	actualSize = 32;
+	while (actualSize < allocation)
+		actualSize *= 2;
 
-    dataStream->Cursor = 0;
-    dataStream->IsEOF = false;
-    Array_Initialize(&dataStream->Data, actualSize);
+	dataStream->Cursor = 0;
+	dataStream->IsEOF = false;
+	Array_Initialize(&dataStream->Data, actualSize);
 }
 
 void DataStream_Free(DataStream* self) {
-    DataStream_Uninitialize(self);
-    Free(self);
+	DataStream_Uninitialize(self);
+	Free(self);
 }
 
 void DataStream_Uninitialize(DataStream* self) {
 	assert(self != NULL);
 
 	Array_Free(&self->Data);
-    self->Cursor = 0;
-    self->IsEOF = true;
+	self->Cursor = 0;
+	self->IsEOF = true;
 }
 
 void DataStream_Seek(DataStream* self, uint64 position) {
 	assert(self != NULL);
-    
+
 	if (position >= self->Data.Size)
 		self->Cursor = self->Data.Size - 1;
 	else
 		self->Cursor = position;
 
-    self->IsEOF = false;
+	self->IsEOF = false;
 }
 
 void DataStream_WriteUInt8(DataStream* self, uint8 data) {
@@ -91,21 +91,21 @@ void DataStream_WriteBytes(DataStream* self, uint8* data, uint64 count, boolean 
 	assert(self != NULL);
 	assert(data != NULL);
 
-    Array_Write(&self->Data, data, self->Cursor, count);
+	Array_Write(&self->Data, data, self->Cursor, count);
 	self->Cursor += count;
 
-    if (disposeBytes)
-        Free(data);
+	if (disposeBytes)
+		Free(data);
 }
 
 void DataStream_WriteArray(DataStream* self, Array* array, boolean disposeArray) {
 	assert(self != NULL);
 	assert(array != NULL);
 
-    Array_Append(&self->Data, array);
+	Array_Append(&self->Data, array);
 
-    if (disposeArray)
-        Array_Free(array);
+	if (disposeArray)
+		Array_Free(array);
 }
 
 void DataStream_WriteString(DataStream* self, String* string, boolean disposeString) {
@@ -118,7 +118,7 @@ void DataStream_WriteString(DataStream* self, String* string, boolean disposeStr
 
 int8 DataStream_ReadInt8(DataStream* self) {
 	int8 result = 0;
-	
+
 	if (self->Cursor + sizeof(int8) < self->Data.Size) {
 		result = *(int8*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(int8);
@@ -131,7 +131,7 @@ int8 DataStream_ReadInt8(DataStream* self) {
 
 int16 DataStream_ReadInt16(DataStream* self) {
 	int16 result = 0;
-	
+
 	if (self->Cursor + sizeof(int16) <= self->Data.Size) {
 		result = *(int16*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(int16);
@@ -144,7 +144,7 @@ int16 DataStream_ReadInt16(DataStream* self) {
 
 int32 DataStream_ReadInt32(DataStream* self) {
 	int32 result = 0;
-	
+
 	if (self->Cursor + sizeof(int32) <= self->Data.Size) {
 		result = *(int32*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(int32);
@@ -157,7 +157,7 @@ int32 DataStream_ReadInt32(DataStream* self) {
 
 int64 DataStream_ReadInt64(DataStream* self) {
 	int64 result = 0;
-	
+
 	if (self->Cursor + sizeof(int64) <= self->Data.Size) {
 		result = *(long*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(int64);
@@ -170,7 +170,7 @@ int64 DataStream_ReadInt64(DataStream* self) {
 
 uint8 DataStream_ReadUInt8(DataStream* self) {
 	uint8 result = 0;
-	
+
 	if (self->Cursor + sizeof(uint8) <= self->Data.Size) {
 		result = *(uint8*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(uint8);
@@ -183,7 +183,7 @@ uint8 DataStream_ReadUInt8(DataStream* self) {
 
 uint16 DataStream_ReadUInt16(DataStream* self) {
 	uint16 result = 0;
-	
+
 	if (self->Cursor + sizeof(uint16) <= self->Data.Size) {
 		result = *(uint16*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(uint16);
@@ -196,7 +196,7 @@ uint16 DataStream_ReadUInt16(DataStream* self) {
 
 uint32 DataStream_ReadUInt32(DataStream* self) {
 	uint32 result = 0;
-	
+
 	if (self->Cursor + sizeof(uint32) <= self->Data.Size) {
 		result = *(uint32*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(uint32);
@@ -209,7 +209,7 @@ uint32 DataStream_ReadUInt32(DataStream* self) {
 
 uint64 DataStream_ReadUInt64(DataStream* self) {
 	uint64 result = 0;
-	
+
 	if (self->Cursor + sizeof(uint64) <= self->Data.Size) {
 		result = *(unsigned long*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(uint64);
@@ -222,7 +222,7 @@ uint64 DataStream_ReadUInt64(DataStream* self) {
 
 float32 DataStream_ReadFloat32(DataStream* self) {
 	float32 result = 0;
-	
+
 	if (self->Cursor + sizeof(float32) <= self->Data.Size) {
 		result = *(float32*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(float32);
@@ -235,7 +235,7 @@ float32 DataStream_ReadFloat32(DataStream* self) {
 
 float64 DataStream_ReadFloat64(DataStream* self) {
 	float64 result = 0;
-	
+
 	if (self->Cursor + sizeof(float64) <= self->Data.Size) {
 		result = *(float64*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(float64);
@@ -250,8 +250,8 @@ float64 DataStream_ReadFloat64(DataStream* self) {
 uint8* DataStream_ReadBytes(DataStream* self, uint64 count) {
 	uint8* result;
 
-    result = NULL;
-	
+	result = NULL;
+
 	if (self->Cursor + count < self->Data.Size) {
 		result = self->Data.Data + self->Cursor + count - 1;
 		self->Cursor += count;
@@ -264,35 +264,35 @@ uint8* DataStream_ReadBytes(DataStream* self, uint64 count) {
 
 Array* DataStream_ReadArray(DataStream* self, uint64 count) {
 	Array* array;
-    
-    array = NULL;
-	
+
+	array = NULL;
+
 	if (self->Cursor + count <= self->Data.Size) {
 		array = Array_New(count);
-        Array_Write(array, self->Data.Data + self->Cursor, 0, count);
+		Array_Write(array, self->Data.Data + self->Cursor, 0, count);
 		self->Cursor += count;
 	}
 	else {
 		self->IsEOF = true;
 	}
-	
+
 	return array;
 }
 
 String* DataStream_ReadString(DataStream* self) {
 	uint16 length;
 	String* string;
-    
-    string = NULL;
+
+	string = NULL;
 	length = 0;
 
 	if (self->Cursor + sizeof(uint16) <= self->Data.Size) {
 		length = *(uint16*)(self->Data.Data + self->Cursor);
 		self->Cursor += sizeof(uint16);
-		
+
 		if (self->Cursor + length <= self->Data.Size) {
 			string = String_New(length);
-            String_AppendBytes(string, (int8*)(self->Data.Data + self->Cursor), length);
+			String_AppendBytes(string, (int8*)(self->Data.Data + self->Cursor), length);
 			self->Cursor += length;
 		}
 		else {
@@ -302,6 +302,6 @@ String* DataStream_ReadString(DataStream* self) {
 	}
 	else
 		self->IsEOF = true;
-	
+
 	return string;
 }

@@ -25,9 +25,9 @@ typedef struct LinkedList {
 } LinkedList;
 
 typedef struct LinkedList_Iterator {
-    LinkedList* List;
-    Node* Position;
-    uint64 Index;
+	LinkedList* List;
+	Node* Position;
+	uint64 Index;
 } LinkedList_Iterator;
 
 /* Iterates over every item in list using the list's DefaultIterator method. Resets the iterator upon invocation. Used like a while loop. */

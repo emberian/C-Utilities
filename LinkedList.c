@@ -11,25 +11,25 @@ LinkedList* LinkedList_New(LinkedList_ElementDisposer elementDisposer) {
 }
 
 void LinkedList_Initialize(LinkedList* list, LinkedList_ElementDisposer elementDisposer) {
-    assert(list != NULL);
+	assert(list != NULL);
 
-    list->Count = 0;
-    list->First = NULL;
-    list->Last = NULL;
-    list->Disposer = elementDisposer;
-    list->DefaultIterator = LinkedList_BeginIterate(list);
+	list->Count = 0;
+	list->First = NULL;
+	list->Last = NULL;
+	list->Disposer = elementDisposer;
+	list->DefaultIterator = LinkedList_BeginIterate(list);
 }
 
 void LinkedList_Free(LinkedList* self) {
-    LinkedList_Uninitialize(self);
-	
+	LinkedList_Uninitialize(self);
+
 	Free(self);
 }
 
 void LinkedList_Uninitialize(LinkedList* self) {
 	Node* prior;
 
-    assert(self != NULL);
+	assert(self != NULL);
 
 	while (self->First != NULL) {
 		if (self->Disposer)
@@ -40,16 +40,16 @@ void LinkedList_Uninitialize(LinkedList* self) {
 		Free(prior);
 	}
 
-    self->Count = 0;
-    self->Disposer = NULL;
-    self->First = NULL;
-    self->Last = NULL;
-    LinkedList_EndIterate(self->DefaultIterator);
+	self->Count = 0;
+	self->Disposer = NULL;
+	self->First = NULL;
+	self->Last = NULL;
+	LinkedList_EndIterate(self->DefaultIterator);
 }
 
 Node* LinkedList_FindNode(LinkedList* self, void* toFind) {
 	Node* current;
-	
+
 	current = NULL;
 	current = self->First;
 
@@ -65,44 +65,44 @@ Node* LinkedList_FindNode(LinkedList* self, void* toFind) {
 
 void* LinkedList_Iterate(LinkedList_Iterator* iterator) {
 	void* data;
-	
+
 	assert(iterator != NULL);
-	
+
 	data = NULL;
 
 	if (iterator->Position) {
 		data = iterator->Position->Data;
-        iterator->Position = iterator->Position->Next;
-        iterator->Index++;
+		iterator->Position = iterator->Position->Next;
+		iterator->Index++;
 	}
 
 	return data;
 }
 
 LinkedList_Iterator* LinkedList_BeginIterate(LinkedList* self) {
-    LinkedList_Iterator* iterator;
+	LinkedList_Iterator* iterator;
 
 	assert(self != NULL);
 
-    iterator = Allocate(LinkedList_Iterator);
-    iterator->Index = 0;
-    iterator->List = self;
-    iterator->Position = self->First;
+	iterator = Allocate(LinkedList_Iterator);
+	iterator->Index = 0;
+	iterator->List = self;
+	iterator->Position = self->First;
 
-    return iterator;
+	return iterator;
 }
 
 void LinkedList_EndIterate(LinkedList_Iterator* iterator) {
 	assert(iterator != NULL);
 
-    Free(iterator);
+	Free(iterator);
 }
 
 void LinkedList_ResetIterator(LinkedList_Iterator* iterator) {
 	assert(iterator != NULL);
-	
+
 	iterator->Position = iterator->List->First;
-    iterator->Index = 0;
+	iterator->Index = 0;
 }
 
 void LinkedList_Clear(LinkedList* self) {
@@ -127,13 +127,13 @@ void LinkedList_Clear(LinkedList* self) {
 
 void LinkedList_Remove(LinkedList* self, void* data) {
 	Node* node;
-	
+
 	assert(self != NULL && data != NULL);
 
 	node = LinkedList_FindNode(self, data);
 
 	if (node)
-        LinkedList_RemoveNode(self, node);
+		LinkedList_RemoveNode(self, node);
 }
 
 void LinkedList_RemoveNode(LinkedList* self, Node* node) {
@@ -177,7 +177,7 @@ void LinkedList_Prepend(LinkedList* self, void* data) {
 	Node* node;
 
 	assert(self != NULL && data != NULL);
-  
+
 	node = Allocate(Node);
 	node->Data = data;
 	node->Prev = NULL;
@@ -194,13 +194,13 @@ void LinkedList_Prepend(LinkedList* self, void* data) {
 	}
 
 	self->Count++;
-}            
+}
 
 void LinkedList_Append(LinkedList* self, void* data) {
 	Node* node;
-	
+
 	assert(self != NULL && data != NULL);
-	
+
 	node = Allocate(Node);
 	node->Data = data;
 	node->Next = NULL;
@@ -221,8 +221,8 @@ void LinkedList_Append(LinkedList* self, void* data) {
 
 void LinkedList_Insert(LinkedList_Iterator* iterator, void* data) {
 	Node* node;
-	
-    assert(iterator != NULL && data != NULL);
+
+	assert(iterator != NULL && data != NULL);
 
 	if (iterator->Position == NULL) {
 		LinkedList_Append(iterator->List, data);
