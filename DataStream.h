@@ -8,7 +8,7 @@
 typedef struct {
 	Array Data;
 	uint64 Cursor;
-    boolean IsEOF;
+	boolean IsEOF;
 } DataStream;
 
 public DataStream* DataStream_New(uint64 allocation);

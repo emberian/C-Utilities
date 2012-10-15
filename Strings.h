@@ -5,7 +5,7 @@
 #include "Array.h"
 
 typedef struct {
-    Array Data;
+	Array Data;
 	uint16 Length;
 } String;
 

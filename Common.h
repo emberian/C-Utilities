@@ -10,10 +10,10 @@
 #endif
 
 #ifdef WINDOWS
-    /*Windows is private by default*/
-    #define private ;
+	/*Windows is private by default*/
+	#define private ;
 #elif defined __clang__ || defined __GNUC__
-    #define private __attribute__((visibility ("hidden")))
+	#define private __attribute__((visibility ("hidden")))
 #endif
 
 #define true 1
@@ -35,9 +35,9 @@ typedef int8 boolean;
 #include "Memory.h"
 
 #ifdef NDEBUG
-    #define assert(expression) ((void)0)
+	#define assert(expression) ((void)0)
 #else
-    #define assert(expression) (void)( (!!(expression)) || true) /*(logger(#expression, __FILE__, __LINE__), 0) ) we need to make logger*/
+	#define assert(expression) (void)( (!!(expression)) || true) /*(logger(#expression, __FILE__, __LINE__), 0) ) we need to make logger*/
 #endif
 
 #endif
