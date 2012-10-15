@@ -28,7 +28,7 @@ typedef struct List_Iterator {
 #define List_ForEach(current, list, type) List_ResetIterator((list)->DefaultIterator); while ((current) = (type)List_Iterate((list)->DefaultIterator))
 
 /* Returns the next item in the list and advances the iteration pointer. Accepts a type to cast the returned value for you. */
-#define List_IterateNext(current, iterator, type) ((current) = (type*)List_Iterate(iterator))
+#define List_IterateNext(current, iterator, type) ((current) = (type)List_Iterate(iterator))
 
 public List* List_New(List_ElementDisposer elementDisposer);
 public void List_Initialize(List* list, List_ElementDisposer elementDisposer);

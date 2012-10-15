@@ -34,7 +34,7 @@ typedef struct LinkedList_Iterator {
 #define LinkedList_ForEach(current, list, type) LinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (type)LinkedList_Iterate((list)->DefaultIterator))
 
 /* Returns the next item in the list and advances the iteration pointer. Accepts a type to cast the returned value for you. */
-#define LinkedList_IterateNext(current, iterator, type) ((current) = (type*)LinkedList_Iterate(iterator))
+#define LinkedList_IterateNext(current, iterator, type) ((current) = (type)LinkedList_Iterate(iterator))
 
 #define LinkedList_Find(list, value, type) ((type)LinkedList_FindValue((list), (value)))
 
