@@ -19,7 +19,7 @@ typedef struct Node {
 typedef struct LinkedList {
 	Node* First;
 	Node* Last;
-	struct LinkedList_Iterator* DefaultIterator;
+	struct LinkedList_Iterator* DefaultIterator; /* An iterator managed by the List itself for use by the user. Warning: a call to ForEach resets this iterator. */
 	uint64 Count;
 	NodeDataDisposer Disposer;
 } LinkedList;
@@ -30,8 +30,11 @@ typedef struct LinkedList_Iterator {
     uint64 Index;
 } LinkedList_Iterator;
 
+/* Iterates over every item in list using the list's DefaultIterator method. Resets the iterator upon invocation. Used like a while loop. */
 #define LinkedList_ForEach(current, list, type) LinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (type*)LinkedList_Iterate((list)->DefaultIterator))
 #define LinkedList_ForEachPtr(current, list, pointerType) LinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (pointerType)LinkedList_Iterate((list)->DefaultIterator))
+
+/* Returns the next item in the list and advances the iteration pointer. Accepts a type to cast the returned value for you. */
 #define LinkedList_IterateNext(current, iterator, type) ((current) = (type*)LinkedList_Iterate(iterator))
 
 public LinkedList* LinkedList_New(NodeDataDisposer itemDisposer);
