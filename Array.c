@@ -147,8 +147,6 @@ void Array_ReadTo(Array* self, uint64 position, uint64 amount, uint8* targetBuff
  * @param amount Number of bytes to write from @a data
  */
 void Array_Write(Array* self, const uint8* data, uint64 position, uint64 amount) {
-    uint8 i;
-
     assert(self != NULL);
     
     if (position + amount > self->Size) Array_Resize(self, position + amount);

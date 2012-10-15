@@ -27,14 +27,17 @@ void LinkedList_Free(LinkedList* self) {
 }
 
 void LinkedList_Uninitialize(LinkedList* self) {
+	Node* prior;
+
     assert(self != NULL);
 
 	while (self->First != NULL) {
 		if (self->Disposer)
 			self->Disposer(self->First->Data);
 
+		prior = self->First;
 		self->First = self->First->Next;
-		Free(self->First->Prev);
+		Free(prior);
 	}
 
     self->Count = 0;
@@ -103,12 +106,17 @@ void LinkedList_ResetIterator(LinkedList_Iterator* iterator) {
 }
 
 void LinkedList_Clear(LinkedList* self) {
+	Node* prior;
+
+    assert(self != NULL);
+
 	while (self->First != NULL) {
 		if (self->Disposer)
 			self->Disposer(self->First->Data);
 
+		prior = self->First;
 		self->First = self->First->Next;
-		Free(self->First->Prev);
+		Free(prior);
 	}
 
     self->First = NULL;

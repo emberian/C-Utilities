@@ -25,8 +25,7 @@ typedef struct List_Iterator {
 
 
 /* Iterates over every item in list using the list's DefaultIterator method. Resets the iterator upon invocation. Used like a while loop. */ 
-#define List_ForEach(current, list, type) List_ResetIterator((list)->DefaultIterator); while ((current) = (type*)List_Iterate((list)->DefaultIterator))
-#define List_ForEachPtr(current, list, pointerType) List_ResetIterator((list)->DefaultIterator); while ((current) = (pointerType)List_Iterate((list)->DefaultIterator))
+#define List_ForEach(current, list, type) List_ResetIterator((list)->DefaultIterator); while ((current) = (type)List_Iterate((list)->DefaultIterator))
 
 /* Returns the next item in the list and advances the iteration pointer. Accepts a type to cast the returned value for you. */
 #define List_IterateNext(current, iterator, type) ((current) = (type*)List_Iterate(iterator))
