@@ -3,7 +3,7 @@
 
 #include "Common.h"
 
-typedef void (*NodeDataDisposer)(void*);
+typedef void (*LinkedList_ElementDisposer)(void*);
 
 /* forward declarations */
 struct Node;
@@ -21,7 +21,7 @@ typedef struct LinkedList {
 	Node* Last;
 	struct LinkedList_Iterator* DefaultIterator; /* An iterator managed by the List itself for use by the user. Warning: a call to ForEach resets this iterator. */
 	uint64 Count;
-	NodeDataDisposer Disposer;
+	LinkedList_ElementDisposer Disposer;
 } LinkedList;
 
 typedef struct LinkedList_Iterator {
@@ -37,8 +37,8 @@ typedef struct LinkedList_Iterator {
 /* Returns the next item in the list and advances the iteration pointer. Accepts a type to cast the returned value for you. */
 #define LinkedList_IterateNext(current, iterator, type) ((current) = (type*)LinkedList_Iterate(iterator))
 
-public LinkedList* LinkedList_New(NodeDataDisposer itemDisposer);
-public void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer);
+public LinkedList* LinkedList_New(LinkedList_ElementDisposer itemDisposer);
+public void LinkedList_Initialize(LinkedList* list, LinkedList_ElementDisposer itemDisposer);
 public void LinkedList_Free(LinkedList* self);
 public void LinkedList_Uninitialize(LinkedList* self);
 

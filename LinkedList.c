@@ -1,24 +1,22 @@
 #include "LinkedList.h"
 #include "Memory.h"
 
-LinkedList* LinkedList_New(NodeDataDisposer itemDisposer) {
+LinkedList* LinkedList_New(LinkedList_ElementDisposer elementDisposer) {
 	LinkedList* list;
 
 	list = Allocate(LinkedList);
-	LinkedList_Initialize(list, itemDisposer);
+	LinkedList_Initialize(list, elementDisposer);
 
 	return list;
 }
 
-void LinkedList_Initialize(LinkedList* list, NodeDataDisposer itemDisposer) {
+void LinkedList_Initialize(LinkedList* list, LinkedList_ElementDisposer elementDisposer) {
     assert(list != NULL);
-
-    if (itemDisposer == NULL) itemDisposer = Memory_Free;
 
     list->Count = 0;
     list->First = NULL;
     list->Last = NULL;
-    list->Disposer = itemDisposer;
+    list->Disposer = elementDisposer;
     list->DefaultIterator = LinkedList_BeginIterate(list);
 }
 
