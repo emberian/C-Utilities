@@ -47,6 +47,22 @@ void LinkedList_Uninitialize(LinkedList* self) {
 	LinkedList_EndIterate(self->DefaultIterator);
 }
 
+void* LinkedList_FindValue(LinkedList* self, void* toFind) {
+	Node* current;
+
+	current = NULL;
+	current = self->First;
+
+	while (current != NULL) {
+		if (current->Data == toFind)
+			break;
+
+		current = current->Next;
+	}
+
+	return current != NULL ? current->Data : NULL;
+}
+
 Node* LinkedList_FindNode(LinkedList* self, void* toFind) {
 	Node* current;
 

@@ -31,17 +31,19 @@ typedef struct LinkedList_Iterator {
 } LinkedList_Iterator;
 
 /* Iterates over every item in list using the list's DefaultIterator method. Resets the iterator upon invocation. Used like a while loop. */
-#define LinkedList_ForEach(current, list, type) LinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (type*)LinkedList_Iterate((list)->DefaultIterator))
-#define LinkedList_ForEachPtr(current, list, pointerType) LinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (pointerType)LinkedList_Iterate((list)->DefaultIterator))
+#define LinkedList_ForEach(current, list, type) LinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (type)LinkedList_Iterate((list)->DefaultIterator))
 
 /* Returns the next item in the list and advances the iteration pointer. Accepts a type to cast the returned value for you. */
 #define LinkedList_IterateNext(current, iterator, type) ((current) = (type*)LinkedList_Iterate(iterator))
+
+#define LinkedList_Find(list, value, type) ((type)LinkedList_FindValue((list), (value)))
 
 public LinkedList* LinkedList_New(LinkedList_ElementDisposer itemDisposer);
 public void LinkedList_Initialize(LinkedList* list, LinkedList_ElementDisposer itemDisposer);
 public void LinkedList_Free(LinkedList* self);
 public void LinkedList_Uninitialize(LinkedList* self);
 
+public void* LinkedList_FindValue(LinkedList* self, void* toFind);
 public Node* LinkedList_FindNode(LinkedList* self, void* toFind);
 public void* LinkedList_Iterate(LinkedList_Iterator* iterator);
 public LinkedList_Iterator* LinkedList_BeginIterate(LinkedList* self);

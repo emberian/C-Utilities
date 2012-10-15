@@ -49,7 +49,7 @@ boolean Lookup_Add(Lookup* self, uint64 key, void* value, boolean overwrite) {
 void* Lookup_FindValue(Lookup* self, uint64 key) {
 	Lookup_Entry* current;
 
-	LinkedList_ForEach(current, &self->Entries, Lookup_Entry)
+	LinkedList_ForEach(current, &self->Entries, Lookup_Entry*)
 		if (current->Key == key)
 			return current->Value;
 
@@ -59,7 +59,7 @@ void* Lookup_FindValue(Lookup* self, uint64 key) {
 Lookup_Entry* Lookup_FindEntry(Lookup* self, uint64 key) {
 	Lookup_Entry* current;
 
-	LinkedList_ForEach(current, &self->Entries, Lookup_Entry)
+	LinkedList_ForEach(current, &self->Entries, Lookup_Entry*)
 		if (current->Key == key)
 			return current;
 
