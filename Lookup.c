@@ -27,7 +27,7 @@ void Lookup_Uninitialize(Lookup* self) {
 	LinkedList_Uninitialize(&self->Entries);
 }
 
-boolean Lookup_Add(Lookup* self, uint64 key, void* value, boolean overwrite) {
+boolean Lookup_Add(Lookup* self, void* key, void* value, boolean overwrite) {
 	Lookup_Entry* current;
 
 	if (current = Lookup_FindEntry(self, key)) {
@@ -46,7 +46,7 @@ boolean Lookup_Add(Lookup* self, uint64 key, void* value, boolean overwrite) {
 	return true;
 }
 
-void* Lookup_FindValue(Lookup* self, uint64 key) {
+void* Lookup_FindValue(Lookup* self, void* key) {
 	Lookup_Entry* current;
 
 	LinkedList_ForEach(current, &self->Entries, Lookup_Entry*)
@@ -56,7 +56,7 @@ void* Lookup_FindValue(Lookup* self, uint64 key) {
 	return NULL;
 }
 
-Lookup_Entry* Lookup_FindEntry(Lookup* self, uint64 key) {
+Lookup_Entry* Lookup_FindEntry(Lookup* self, void* key) {
 	Lookup_Entry* current;
 
 	LinkedList_ForEach(current, &self->Entries, Lookup_Entry*)
@@ -66,7 +66,7 @@ Lookup_Entry* Lookup_FindEntry(Lookup* self, uint64 key) {
 	return NULL;
 }
 
-boolean Lookup_Remove(Lookup* self, uint64 key) {
+boolean Lookup_Remove(Lookup* self, void* key) {
 	Lookup_Entry* current;
 
 	if (current = Lookup_FindEntry(self, key)) {
