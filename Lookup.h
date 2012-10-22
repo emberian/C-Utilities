@@ -4,6 +4,8 @@
 #include "Common.h"
 #include "LinkedList.h"
 
+typedef void (*Lookup_ElementDisposer)(void*);
+
 typedef struct {
 	uint64 Key;
 	void* Value;
@@ -15,8 +17,8 @@ typedef struct {
 
 #define Lookup_Find(lookup, key, type) ((type)Lookup_FindValue((lookup), key))
 
-public Lookup* Lookup_New();
-public void Lookup_Initialize(Lookup* lookup);
+public Lookup* Lookup_New(Lookup_ElementDisposer elementDisposer);
+public void Lookup_Initialize(Lookup* lookup, Lookup_ElementDisposer elementDisposer);
 public void Lookup_Free(Lookup* self);
 public void Lookup_Uninitialize(Lookup* self);
 public boolean Lookup_Add(Lookup* self, uint64 key, void* value, boolean overwrite);

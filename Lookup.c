@@ -1,18 +1,18 @@
 #include "Lookup.h"
 
-Lookup* Lookup_New() {
+Lookup* Lookup_New(Lookup_ElementDisposer elementDisposer) {
 	Lookup* lookup;
 
 	lookup = Allocate(Lookup);
-	Lookup_Initialize(lookup);
+	Lookup_Initialize(lookup, elementDisposer);
 
 	return lookup;
 }
 
-void Lookup_Initialize(Lookup* lookup) {
+void Lookup_Initialize(Lookup* lookup, Lookup_ElementDisposer elementDisposer) {
     assert(lookup != NULL);
 
-	LinkedList_Initialize(&lookup->Entries, NULL);
+	LinkedList_Initialize(&lookup->Entries, elementDisposer);
 }
 
 void Lookup_Free(Lookup* self) {
