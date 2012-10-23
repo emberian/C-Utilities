@@ -14,6 +14,7 @@ void AsyncLinkedList_Initialize(AsyncLinkedList* list, LinkedList_ElementDispose
 	
 	list->BaseList = LinkedList_New(elementDisposer);
 	list->Lock = SAL_Mutex_Create();
+	list->DefaultIterator = AsyncLinkedList_BeginIterate(list);
 }
 
 void AsyncLinkedList_Free(AsyncLinkedList* self) {
@@ -27,6 +28,7 @@ void AsyncLinkedList_Uninitialize(AsyncLinkedList* self) {
 	
 	LinkedList_Free(self->BaseList);
 	SAL_Mutex_Free(self->Lock);
+	AsyncLinkedList_EndIterate(self->DefaultIterator);
 }
 
 void* AsyncLinkedList_FindValue(AsyncLinkedList* self, void* toFind) {

@@ -12,6 +12,7 @@ struct AsyncList_Iterator;
 typedef struct AsyncList {
 	List* BaseList;
 	SAL_Mutex Lock;
+	struct AsyncList_Iterator* DefaultIterator;
 } AsyncList;
 
 typedef struct AsyncList_Iterator {
@@ -21,7 +22,7 @@ typedef struct AsyncList_Iterator {
 
 
 /* Iterates over every item in list using the list's DefaultIterator method. Resets the iterator upon invocation. Used like a while loop. */ 
-#define AsyncList_ForEach(current, list, type) AsyncList_ResetIterator((list)->BaseList->DefaultIterator); while ((current) = (type)AsyncList_Iterate((list)->BaseList->DefaultIterator))
+#define AsyncList_ForEach(current, list, type) AsyncList_ResetIterator((list)->DefaultIterator); while ((current) = (type)AsyncList_Iterate((list)->DefaultIterator))
 
 /* Returns the next item in the list and advances the iteration pointer. Accepts a type to cast the returned value for you. */
 #define AsyncList_IterateNext(current, iterator, type) ((current) = (type)AsyncList_Iterate(iterator))

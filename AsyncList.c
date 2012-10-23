@@ -15,6 +15,7 @@ void AsyncList_Initialize(AsyncList* list, List_ElementDisposer elementDisposer)
 
 	list->BaseList = List_New(elementDisposer);
 	list->Lock = SAL_Mutex_Create();
+	list->DefaultIterator = AsyncList_BeginIterate(list);
 }
 
 void AsyncList_Free(AsyncList* self) {
@@ -28,6 +29,7 @@ void AsyncList_Uninitialize(AsyncList* self) {
 
 	List_Free(self->BaseList);
 	SAL_Mutex_Free(self->Lock);
+	AsyncList_EndIterate(self->DefaultIterator);
 }
 
 void AsyncList_Append(AsyncList* self, void* data) {
