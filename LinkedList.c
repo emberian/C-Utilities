@@ -17,7 +17,8 @@ void LinkedList_Initialize(LinkedList* list, LinkedList_ElementDisposer elementD
 	list->First = NULL;
 	list->Last = NULL;
 	list->Disposer = elementDisposer;
-	list->DefaultIterator = LinkedList_BeginIterate(list);
+	list->DefaultIterator = Allocate(LinkedList_Iterator);
+	LinkedList_InitializeIterator(list->DefaultIterator, list);
 }
 
 void LinkedList_Free(LinkedList* self) {
@@ -44,7 +45,7 @@ void LinkedList_Uninitialize(LinkedList* self) {
 	self->Disposer = NULL;
 	self->First = NULL;
 	self->Last = NULL;
-	LinkedList_EndIterate(self->DefaultIterator);
+    Free(self->DefaultIterator);
 }
 
 void* LinkedList_FindValue(LinkedList* self, void* toFind) {
@@ -95,23 +96,13 @@ void* LinkedList_Iterate(LinkedList_Iterator* iterator) {
 	return data;
 }
 
-LinkedList_Iterator* LinkedList_BeginIterate(LinkedList* self) {
-	LinkedList_Iterator* iterator;
-
-	assert(self != NULL);
-
-	iterator = Allocate(LinkedList_Iterator);
-	iterator->Index = 0;
-	iterator->List = self;
-	iterator->Position = self->First;
-
-	return iterator;
-}
-
-void LinkedList_EndIterate(LinkedList_Iterator* iterator) {
+void LinkedList_InitializeIterator(LinkedList_Iterator* iterator, LinkedList* list) {
 	assert(iterator != NULL);
+	assert(list != NULL);
 
-	Free(iterator);
+	iterator->Index = 0;
+	iterator->List = list;
+	iterator->Position = list->First;
 }
 
 void LinkedList_ResetIterator(LinkedList_Iterator* iterator) {

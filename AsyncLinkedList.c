@@ -14,7 +14,8 @@ void AsyncLinkedList_Initialize(AsyncLinkedList* list, LinkedList_ElementDispose
 	
 	list->BaseList = LinkedList_New(elementDisposer);
 	list->Lock = SAL_Mutex_Create();
-	list->DefaultIterator = AsyncLinkedList_BeginIterate(list);
+	list->DefaultIterator = Allocate(AsyncLinkedList_Iterator);
+	AsyncLinkedList_InitializeIterator(list->DefaultIterator, list);
 }
 
 void AsyncLinkedList_Free(AsyncLinkedList* self) {
@@ -28,7 +29,7 @@ void AsyncLinkedList_Uninitialize(AsyncLinkedList* self) {
 	
 	LinkedList_Free(self->BaseList);
 	SAL_Mutex_Free(self->Lock);
-	AsyncLinkedList_EndIterate(self->DefaultIterator);
+	Free(self->DefaultIterator);
 }
 
 void* AsyncLinkedList_FindValue(AsyncLinkedList* self, void* toFind) {
@@ -60,45 +61,29 @@ void* AsyncLinkedList_Iterate(AsyncLinkedList_Iterator* iterator) {
 
 	assert(iterator != NULL);
 	
-	SAL_Mutex_Acquire(iterator->ParentList->Lock);
-	result = LinkedList_Iterate(iterator->BaseIterator);
-	SAL_Mutex_Release(iterator->ParentList->Lock);
+	SAL_Mutex_Acquire(iterator->BaseList->Lock);
+	result = LinkedList_Iterate(&iterator->BaseIterator);
+	SAL_Mutex_Release(iterator->BaseList->Lock);
 
 	return result;
 }
 
-AsyncLinkedList_Iterator* AsyncLinkedList_BeginIterate(AsyncLinkedList* self) {
-    AsyncLinkedList_Iterator* iterator;
-
-	assert(self != NULL);
-	
-	SAL_Mutex_Acquire(self->Lock);
-    iterator = Allocate(AsyncLinkedList_Iterator);
-    iterator->ParentList = self;
-    iterator->BaseIterator = LinkedList_BeginIterate(self->BaseList);
-	SAL_Mutex_Release(self->Lock);
-
-    return iterator;
-}
-
-void AsyncLinkedList_EndIterate(AsyncLinkedList_Iterator* iterator) {
+void AsyncLinkedList_InitializeIterator(AsyncLinkedList_Iterator* iterator, AsyncLinkedList* list) {
 	assert(iterator != NULL);
+	assert(list != NULL);
 	
-	SAL_Mutex_Acquire(iterator->ParentList->Lock);
-	LinkedList_EndIterate(iterator->BaseIterator);
-	SAL_Mutex_Release(iterator->ParentList->Lock);
-	iterator->BaseIterator = NULL;
-	iterator->ParentList = NULL;
-
-    Free(iterator);
+	SAL_Mutex_Acquire(list->Lock);
+    iterator->BaseList = list;
+    LinkedList_InitializeIterator(&iterator->BaseIterator, list->BaseList);
+	SAL_Mutex_Release(list->Lock);
 }
 
 void AsyncLinkedList_ResetIterator(AsyncLinkedList_Iterator* iterator) {
 	assert(iterator != NULL);
 	
-	SAL_Mutex_Acquire(iterator->ParentList->Lock);
-	LinkedList_ResetIterator(iterator->BaseIterator);
-	SAL_Mutex_Release(iterator->ParentList->Lock);
+	SAL_Mutex_Acquire(iterator->BaseList->Lock);
+	LinkedList_ResetIterator(&iterator->BaseIterator);
+	SAL_Mutex_Release(iterator->BaseList->Lock);
 }
 
 void AsyncLinkedList_Clear(AsyncLinkedList* self) {
@@ -144,7 +129,7 @@ void AsyncLinkedList_Append(AsyncLinkedList* self, void* data) {
 void AsyncLinkedList_Insert(AsyncLinkedList_Iterator* iterator, void* data) {
 	assert(iterator != NULL);
 
-	SAL_Mutex_Acquire(iterator->ParentList->Lock);
-	LinkedList_Insert(iterator->BaseIterator, data);
-	SAL_Mutex_Release(iterator->ParentList->Lock);
+	SAL_Mutex_Acquire(iterator->BaseList->Lock);
+	LinkedList_Insert(&iterator->BaseIterator, data);
+	SAL_Mutex_Release(iterator->BaseList->Lock);
 }

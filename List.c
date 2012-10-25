@@ -16,7 +16,8 @@ void List_Initialize(List* list, List_ElementDisposer elementDisposer) {
     list->Cursor = 0;
 	list->Count = 0;
     list->Disposer = elementDisposer;
-    list->DefaultIterator = List_BeginIterate(list);
+	list->DefaultIterator = Allocate(List_Iterator);
+    List_InitializeIterator(list->DefaultIterator, list);
 	Array_Initialize(&list->DataStore, 64);
 }
 
@@ -40,8 +41,8 @@ void List_Uninitialize(List* self) {
     self->Count = 0;
     self->Cursor = 0;
     self->Disposer = NULL;
+    Free(self->DefaultIterator);
 	Array_Uninitialize(&self->DataStore);
-    List_EndIterate(self->DefaultIterator);
 }
 
 void List_Append(List* self, void* data) {
@@ -73,22 +74,12 @@ void* List_Iterate(List_Iterator* iterator) {
 	return address;
 }
 
-List_Iterator* List_BeginIterate(List* self) {
-    List_Iterator* iterator;
-
-	assert(self != NULL);
-
-    iterator = Allocate(List_Iterator);
-    iterator->Position = 0;
-    iterator->ParentList = self;
-
-    return iterator;
-}
-
-void List_EndIterate(List_Iterator* iterator) {
+void List_InitializeIterator(List_Iterator* iterator, List* list) {
 	assert(iterator != NULL);
+	assert(list != NULL);
 
-    Free(iterator);
+    iterator->Position = 0;
+    iterator->ParentList = list;
 }
 
 void List_ResetIterator(List_Iterator* iterator) {

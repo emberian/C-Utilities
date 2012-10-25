@@ -6,27 +6,22 @@
 #include <SAL/Thread.h>
 
 /* forward declarations */
-struct AsyncLinkedList;
-struct AsyncLinkedList_Iterator;
+typedef struct AsyncLinkedList AsyncLinkedList;
+typedef struct AsyncLinkedList_Iterator AsyncLinkedList_Iterator;
 
-typedef struct AsyncLinkedList {
+struct AsyncLinkedList {
 	LinkedList* BaseList;
 	SAL_Mutex Lock;
-	struct AsyncLinkedList_Iterator* DefaultIterator;
-} AsyncLinkedList;
+	AsyncLinkedList_Iterator* DefaultIterator;
+};
 
-typedef struct AsyncLinkedList_Iterator {
-    struct AsyncLinkedList* ParentList;
-	LinkedList_Iterator* BaseIterator;
-} AsyncLinkedList_Iterator;
+struct AsyncLinkedList_Iterator {
+    AsyncLinkedList* BaseList;
+	LinkedList_Iterator BaseIterator;
+};
 
 /* Iterates over every item in list using the list's DefaultIterator method. Resets the iterator upon invocation. Used like a while loop. */
 #define AsyncLinkedList_ForEach(current, list, type) AsyncLinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (type)AsyncLinkedList_Iterate((list)->DefaultIterator))
-
-/* Returns the next item in the list and advances the iteration pointer. Accepts a type to cast the returned value for you. */
-#define AsyncLinkedList_IterateNext(current, iterator, type) ((current) = (type)AsyncLinkedList_Iterate(iterator))
-
-#define AsyncLinkedList_Find(list, value, type) ((type)AsyncLinkedList_FindValue((list), (value)))
 
 public AsyncLinkedList* AsyncLinkedList_New(LinkedList_ElementDisposer itemDisposer);
 public void AsyncLinkedList_Initialize(AsyncLinkedList* list, LinkedList_ElementDisposer itemDisposer);
@@ -35,9 +30,9 @@ public void AsyncLinkedList_Uninitialize(AsyncLinkedList* self);
 
 public void* AsyncLinkedList_FindValue(AsyncLinkedList* self, void* toFind);
 public Node* AsyncLinkedList_FindNode(AsyncLinkedList* self, void* toFind);
+
 public void* AsyncLinkedList_Iterate(AsyncLinkedList_Iterator* iterator);
-public AsyncLinkedList_Iterator* AsyncLinkedList_BeginIterate(AsyncLinkedList* self);
-public void AsyncLinkedList_EndIterate(AsyncLinkedList_Iterator* iterator);
+public void AsyncLinkedList_InitializeIterator(AsyncLinkedList_Iterator* iterator, AsyncLinkedList* list);
 public void AsyncLinkedList_ResetIterator(AsyncLinkedList_Iterator* iterator);
 
 public void AsyncLinkedList_Clear(AsyncLinkedList* self);

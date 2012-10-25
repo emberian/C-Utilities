@@ -15,7 +15,8 @@ void AsyncList_Initialize(AsyncList* list, List_ElementDisposer elementDisposer)
 
 	list->BaseList = List_New(elementDisposer);
 	list->Lock = SAL_Mutex_Create();
-	list->DefaultIterator = AsyncList_BeginIterate(list);
+	list->DefaultIterator = Allocate(AsyncList_Iterator);
+	AsyncList_InitializeIterator(list->DefaultIterator, list);
 }
 
 void AsyncList_Free(AsyncList* self) {
@@ -29,7 +30,7 @@ void AsyncList_Uninitialize(AsyncList* self) {
 
 	List_Free(self->BaseList);
 	SAL_Mutex_Free(self->Lock);
-	AsyncList_EndIterate(self->DefaultIterator);
+	Free(self->DefaultIterator);
 }
 
 void AsyncList_Append(AsyncList* self, void* data) {
@@ -45,43 +46,27 @@ void* AsyncList_Iterate(AsyncList_Iterator* iterator) {
 
 	assert(iterator != NULL);
 	
-	SAL_Mutex_Acquire(iterator->ParentList->Lock);
-	result = List_Iterate(iterator->BaseIterator);
-	SAL_Mutex_Release(iterator->ParentList->Lock);
+	SAL_Mutex_Acquire(iterator->BaseList->Lock);
+	result = List_Iterate(&iterator->BaseIterator);
+	SAL_Mutex_Release(iterator->BaseList->Lock);
 
 	return result;
 }
 
-AsyncList_Iterator* AsyncList_BeginIterate(AsyncList* self) {
-    AsyncList_Iterator* iterator;
-
-	assert(self != NULL);
-	
-	SAL_Mutex_Acquire(self->Lock);
-    iterator = Allocate(AsyncList_Iterator);
-    iterator->ParentList = self;
-    iterator->BaseIterator = List_BeginIterate(self->BaseList);
-	SAL_Mutex_Release(self->Lock);
-
-    return iterator;
-}
-
-void AsyncList_EndIterate(AsyncList_Iterator* iterator) {
+void AsyncList_InitializeIterator(AsyncList_Iterator* iterator, AsyncList* list) {
 	assert(iterator != NULL);
+	assert(list != NULL);
 	
-	SAL_Mutex_Acquire(iterator->ParentList->Lock);
-	List_EndIterate(iterator->BaseIterator);
-	SAL_Mutex_Release(iterator->ParentList->Lock);
-	iterator->BaseIterator = NULL;
-	iterator->ParentList = NULL;
-
-    Free(iterator);
+	SAL_Mutex_Acquire(list->Lock);
+    iterator->BaseList = list;
+    List_InitializeIterator(&iterator->BaseIterator, list->BaseList);
+	SAL_Mutex_Release(list->Lock);
 }
 
 void AsyncList_ResetIterator(AsyncList_Iterator* iterator) {
 	assert(iterator != NULL);
 	
-	SAL_Mutex_Acquire(iterator->ParentList->Lock);
-	List_ResetIterator(iterator->BaseIterator);
-	SAL_Mutex_Release(iterator->ParentList->Lock);
+	SAL_Mutex_Acquire(iterator->BaseList->Lock);
+	List_ResetIterator(&iterator->BaseIterator);
+	SAL_Mutex_Release(iterator->BaseList->Lock);
 }
