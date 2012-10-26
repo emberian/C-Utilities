@@ -16,7 +16,7 @@
 
 static void TCPServer_WebSocket_DoHandshake(TCPServer_Client* const client, SAL_Socket* const socket);
 static void TCPServer_WebSocket_OnReceive(TCPServer_Client* const client, SAL_Socket* const socket);
-static void TCPServer_WebSocket_Send(TCPServer_Client* const client, const uint8* const data, const uint16 length, const uint8 opCode);
+static boolean TCPServer_WebSocket_Send(TCPServer_Client* const client, const uint8* const data, const uint16 length, const uint8 opCode);
 static void TCPServer_WebSocket_Close(TCPServer_Client* const client, const uint16 code);
 
 static void TCPServer_WebSocket_DoHandshake(TCPServer_Client* const client, SAL_Socket* const socket) {
@@ -61,7 +61,10 @@ static void TCPServer_WebSocket_DoHandshake(TCPServer_Client* const client, SAL_
 	DataStream_WriteBytes(response, (uint8*)base64, base64Length, false);
 	DataStream_WriteBytes(response, (uint8*)"\r\n\r\n", 4, false);
 	
-	SAL_Socket_Write(client->Socket, response->Data.Data, 97 + 4 + base64Length);
+	if (SAL_Socket_EnsureWrite(client->Socket, response->Data.Data, 97 + 4 + base64Length, 10) != 97 + 4 + base64Length) {
+		TCPServer_DisconnectClient(client);
+		return;
+	}
 	client->WebSocketReady = true;
 	client->BytesReceived = 0;
 	
@@ -153,8 +156,10 @@ static void TCPServer_WebSocket_OnReceive(TCPServer_Client* const client, SAL_So
 				case WS_PING_OPCODE: 
 					if (length <= 125) {
 						bytes[0] = 128 | WS_PONG_OPCODE;  
-						SAL_Socket_Write(client->Socket, bytes, 2);
-						SAL_Socket_Write(client->Socket, dataBuffer + headerEnd, length + 4);
+						if (SAL_Socket_EnsureWrite(client->Socket, bytes, 2, 10) != 2 || SAL_Socket_EnsureWrite(client->Socket, dataBuffer + headerEnd, length + 4, 10) != length + 4) {
+							TCPServer_DisconnectClient(client);
+							return;
+						} 
 						headerEnd += mask ? WS_MASK_BYTES : 0;
 						client->BytesReceived -= headerEnd;
 						dataBuffer = client->Buffer + headerEnd;
@@ -196,35 +201,43 @@ static void TCPServer_WebSocket_OnReceive(TCPServer_Client* const client, SAL_So
 	}
 }
 
-static void TCPServer_WebSocket_Send(TCPServer_Client* const client, const uint8* const data, const uint16 length, const uint8 opCode) {
-	uint8 bytes[2];
-	uint16 networkLength;
+static boolean TCPServer_WebSocket_Send(TCPServer_Client* const client, const uint8* const data, const uint16 length, const uint8 opCode) {
+	uint8 bytes[4];
+	uint8 sendLength;
 
 	bytes[0] = 128 | opCode;
+	sendLength = 2;
 
 	if (length <= 125) {
 		bytes[1] = (uint8)length;
-		networkLength = 0;
+		*(uint16*)(bytes + 2) = 0;
 	}
 	else if (length <= 65536) {
 		bytes[1] = 126;
-		networkLength = SAL_Socket_HostToNetworkShort(length);
+		sendLength += 2;
+		*(uint16*)(bytes + 2) = SAL_Socket_HostToNetworkShort(length);
 	}
-	else {
+	else { /* we dont support longer messages */
 		TCPServer_WebSocket_Close(client, 1004);
-		return;	
+		return false;	
 	}
 
-	SAL_Socket_Write(client->Socket, bytes, 2);
-	if (networkLength)
-		SAL_Socket_Write(client->Socket, (uint8*)&networkLength, 2);
-	SAL_Socket_Write(client->Socket, data, length); 
+	if (SAL_Socket_EnsureWrite(client->Socket, bytes, sendLength, 10) != sendLength) 
+		goto sendFailed;
+	if (SAL_Socket_EnsureWrite(client->Socket, data, length, 10) != length)
+		goto sendFailed;
+
+	return true;
+sendFailed:
+	client->WebSocketCloseSent = true;
+	TCPServer_DisconnectClient(client);
+	return false;
 }
 
 static void TCPServer_WebSocket_Close(TCPServer_Client* const client, const uint16 code) {
-	TCPServer_WebSocket_Send(client, (uint8*)&code, sizeof(uint16), WS_CLOSE_OPCODE);
-
 	client->WebSocketCloseSent = true;
+
+	TCPServer_WebSocket_Send(client, (uint8*)&code, sizeof(uint16), WS_CLOSE_OPCODE);
 
 	if (client->Server->IsWebSocket)
 		TCPServer_DisconnectClient(client);
@@ -336,18 +349,23 @@ TCPServer* TCPServer_Listen(const int8* const port, const boolean isWebSocket, c
 	return server;
 }
 
-void TCPServer_Send(TCPServer_Client* const client, const uint8* const buffer, const uint16 length) {
+boolean TCPServer_Send(TCPServer_Client* const client, const uint8* const buffer, const uint16 length) {
 	assert(client != NULL);
 	assert(client->Server != NULL);
 	
 	if (client->Server->Active) {
 		if (client->Server->IsWebSocket) {
-			TCPServer_WebSocket_Send(client, buffer, length, WS_BINARY_OPCODE);
+			return TCPServer_WebSocket_Send(client, buffer, length, WS_BINARY_OPCODE);
 		}
 		else {
-			SAL_Socket_Write(client->Socket, buffer, length);
+			if ( SAL_Socket_EnsureWrite(client->Socket, buffer, length, 10) != length) {
+				TCPServer_DisconnectClient(client);
+				return false;
+			}
 		}
 	}
+
+	return true;
 }
 
 void TCPServer_DisconnectClient(TCPServer_Client* const client) {

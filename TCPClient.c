@@ -55,13 +55,11 @@ TCPClient* TCPClient_Connect(const int8* const address, const int8* const port, 
 	client->ReceiveCallback = receiveCallback;
 	client->DisconnectCallback = serverDisconnectCallback;
 	client->State = state;
-	client->Active = false;
 	client->BytesReceived = 0;
 	
 	client->Server = SAL_Socket_Connect(address, port, SAL_Socket_Families_IPAny, SAL_Socket_Types_TCP);
 	if (client->Server) {
 		SAL_Socket_SetReadCallback(client->Server, ClientReadCallback, client);
-		client->Active = true;
 	}
 	else {
 		Free(client);
@@ -71,13 +69,17 @@ TCPClient* TCPClient_Connect(const int8* const address, const int8* const port, 
 	return client;
 }
 
-void TCPClient_Send(const TCPClient* const client, const uint8* const buffer, const uint16 length) {
+boolean TCPClient_Send(TCPClient* const client, const uint8* const buffer, const uint16 length) {
 	assert(client != NULL);
 	assert(client->Server != NULL);
 	assert(buffer != NULL);
 
-	if (client->Active)
-		SAL_Socket_Write(client->Server, buffer, length);
+	if (SAL_Socket_EnsureWrite(client->Server, buffer, length, 10) != length) {
+		TCPClient_Disconnect(client);
+		return false;
+	}
+
+	return true;
 }
 
 void TCPClient_Disconnect(TCPClient* const client) {

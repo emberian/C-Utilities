@@ -16,7 +16,6 @@ typedef void (*TCPClient_OnReceive)(const TCPClient* const client, void* state, 
 
 struct TCPClient {
 	SAL_Socket* Server;
-	boolean Active;
 	TCPClient_OnReceive ReceiveCallback;
 	TCPClient_OnServerDisconnect DisconnectCallback;
 	uint8 Buffer[MESSAGE_MAXSIZE];
@@ -25,7 +24,7 @@ struct TCPClient {
 };
 
 public TCPClient* TCPClient_Connect(const int8* const address, const int8* const port, const TCPClient_OnReceive receiveCallback, const TCPClient_OnServerDisconnect serverDisconnectCallback, void* state);
-public void TCPClient_Send(const TCPClient* const client, const uint8* const buffer, const uint16 length);
+public boolean TCPClient_Send(TCPClient* const client, const uint8* const buffer, const uint16 length);
 public void TCPClient_Disconnect(TCPClient* const client);
 
 #endif

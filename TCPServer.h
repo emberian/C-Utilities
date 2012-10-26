@@ -41,7 +41,7 @@ struct TCPServer_Client {
 };
 
 public TCPServer* TCPServer_Listen(const int8* const port, const boolean isWebSocket, const TCPServer_OnConnect connectCallback, const TCPServer_OnReceive receiveCallback, const TCPServer_OnDisconnect disconnectCallback);
-public void TCPServer_Send(TCPServer_Client* const client, const uint8* const buffer, const uint16 length);
+public boolean TCPServer_Send(TCPServer_Client* const client, const uint8* const buffer, const uint16 length);
 public void TCPServer_DisconnectClient(TCPServer_Client* const client);
 public void TCPServer_Shutdown(TCPServer* const server);
 
