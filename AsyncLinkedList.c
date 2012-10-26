@@ -56,6 +56,18 @@ Node* AsyncLinkedList_FindNode(AsyncLinkedList* self, void* toFind) {
 	return result;
 }
 
+uint64 AsyncLinkedList_GetCount(AsyncLinkedList* self) {
+	uint64 result;
+
+	assert(self != NULL);
+	
+	SAL_Mutex_Acquire(self->Lock);
+	result = self->BaseList->Count;
+	SAL_Mutex_Release(self->Lock);
+
+	return result;
+}
+
 void* AsyncLinkedList_Iterate(AsyncLinkedList_Iterator* iterator) {
 	void* result;
 

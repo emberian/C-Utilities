@@ -30,6 +30,7 @@ public void AsyncLinkedList_Uninitialize(AsyncLinkedList* self);
 
 public void* AsyncLinkedList_FindValue(AsyncLinkedList* self, void* toFind);
 public Node* AsyncLinkedList_FindNode(AsyncLinkedList* self, void* toFind);
+public uint64 AsyncLinkedList_GetCount(AsyncLinkedList* self);
 
 public void* AsyncLinkedList_Iterate(AsyncLinkedList_Iterator* iterator);
 public void AsyncLinkedList_InitializeIterator(AsyncLinkedList_Iterator* iterator, AsyncLinkedList* list);

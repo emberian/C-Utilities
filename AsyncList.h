@@ -29,6 +29,7 @@ public void AsyncList_Free(AsyncList* self);
 public void AsyncList_Uninitialize(AsyncList* self);
 
 public void AsyncList_Append(AsyncList* self, void* data);
+public uint64 AsyncList_GetCount(AsyncList* self);
 
 public void* AsyncList_Iterate(AsyncList_Iterator* iterator);
 public void AsyncList_InitializeIterator(AsyncList_Iterator* iterator, AsyncList* list);
