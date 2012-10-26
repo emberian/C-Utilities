@@ -34,7 +34,7 @@ boolean AsyncLookup_Add(AsyncLookup* self, void* key, void* value, boolean overw
 
 	SAL_Mutex_Acquire(self->Lock);
 	result = Lookup_Add(self->BaseLookup, key, value, overwrite);
-	SAL_Mutex_Free(self->Lock);
+	SAL_Mutex_Release(self->Lock);
 	
 	return result;
 }
@@ -44,7 +44,7 @@ void* AsyncLookup_FindValue(AsyncLookup* self, void* key) {
 
 	SAL_Mutex_Acquire(self->Lock);
 	result = Lookup_FindValue(self->BaseLookup, key);
-	SAL_Mutex_Free(self->Lock);
+	SAL_Mutex_Release(self->Lock);
 	
 	return result;
 }
@@ -54,7 +54,7 @@ Lookup_Entry* AsyncLookup_FindEntry(AsyncLookup* self, void* key) {
 
 	SAL_Mutex_Acquire(self->Lock);
 	result = Lookup_FindEntry(self->BaseLookup, key);
-	SAL_Mutex_Free(self->Lock);
+	SAL_Mutex_Release(self->Lock);
 	
 	return result;
 }
@@ -64,7 +64,7 @@ boolean AsyncLookup_Remove(AsyncLookup* self, void* key) {
 
 	SAL_Mutex_Acquire(self->Lock);
 	result = Lookup_Remove(self->BaseLookup, key);
-	SAL_Mutex_Free(self->Lock);
+	SAL_Mutex_Release(self->Lock);
 	
 	return result;
 }
@@ -72,5 +72,5 @@ boolean AsyncLookup_Remove(AsyncLookup* self, void* key) {
 void AsyncLookup_Clear(AsyncLookup* self) {
 	SAL_Mutex_Acquire(self->Lock);
 	Lookup_Clear(self->BaseLookup);
-	SAL_Mutex_Free(self->Lock);
+	SAL_Mutex_Release(self->Lock);
 }

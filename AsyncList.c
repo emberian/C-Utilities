@@ -38,7 +38,7 @@ void AsyncList_Append(AsyncList* self, void* data) {
 	
 	SAL_Mutex_Acquire(self->Lock);
 	List_Append(self->BaseList, data);
-	SAL_Mutex_Free(self->Lock);
+	SAL_Mutex_Release(self->Lock);
 }
 
 uint64 AsyncList_GetCount(AsyncList* self) {

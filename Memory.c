@@ -55,3 +55,14 @@ void Memory_BlockCopy(const uint8* source, uint8* destination, uint64 amount) {
 			*(uint8*)(destination + i) = *(source + i);
 	}
 }
+
+boolean Memory_Compare(const uint8* blockA, const uint8* blockB, uint64 lengthA, uint64 lengthB) {
+	if (lengthA != lengthB)
+		return false;
+
+	for (; lengthA > 0; lengthA--)
+		if (blockA[lengthA - 1] != blockB[lengthA - 1])
+			return false;
+
+	return true;
+}

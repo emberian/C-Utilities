@@ -5,6 +5,7 @@
 
 public void Memory_Free(void* block);
 public void Memory_BlockCopy(const uint8* source, uint8* destination, uint64 amount);
+public boolean Memory_Compare(const uint8* blockA, const uint8* blockB, uint64 lengthA, uint64 lengthB);
 
 /**
  * Frees a block of memory allocated by Allocate or AllocateArray

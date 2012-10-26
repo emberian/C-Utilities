@@ -31,7 +31,7 @@ void DataStream_Free(DataStream* self) {
 void DataStream_Uninitialize(DataStream* self) {
 	assert(self != NULL);
 
-	Array_Free(&self->Data);
+	Array_Uninitialize(&self->Data);
 	self->Cursor = 0;
 	self->IsEOF = true;
 }
