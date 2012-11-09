@@ -71,7 +71,7 @@ void HashTable_Uninitialize(HashTable* self) {
 	}
 }
 
-uint8* HashTable_Get(HashTable* self, uint8* key, uint32 keyLength, uint8** value, uint32* valueLength) {
+void* HashTable_Get(HashTable* self, uint8* key, uint32 keyLength, void** value, uint32* valueLength) {
 	uint32 index;
 	Bucket* bucket;
 	Entry* entry;
@@ -105,7 +105,7 @@ uint8* HashTable_Get(HashTable* self, uint8* key, uint32 keyLength, uint8** valu
 	}
 }
 
-void HashTable_Add(HashTable* self, uint8* key, uint32 keyLength, uint8* value, uint32 valueLength) {
+void HashTable_Add(HashTable* self, uint8* key, uint32 keyLength, void* value, uint32 valueLength) {
 	uint32 index;
 	Bucket* bucket;
 	Entry* entry;
@@ -123,7 +123,7 @@ void HashTable_Add(HashTable* self, uint8* key, uint32 keyLength, uint8* value, 
 		if (entry->ValueLength < valueLength) 
 			entry->Value = ReallocateArray(uint8, valueLength, entry->Value);
 
-		Memory_BlockCopy(value, entry->Value, valueLength);
+		Memory_BlockCopy((uint8*)value, entry->Value, valueLength);
 	}
 	else {
 		entry = Allocate(Entry);
@@ -131,7 +131,7 @@ void HashTable_Add(HashTable* self, uint8* key, uint32 keyLength, uint8* value, 
 		entry->Value = AllocateArray(uint8, valueLength);
 		
 		Memory_BlockCopy(key, entry->Key, keyLength);
-		Memory_BlockCopy(value, entry->Value, valueLength);
+		Memory_BlockCopy((uint8*)value, entry->Value, valueLength);
 
 		LinkedList_Append(&bucket->Entries, entry);
 	}
@@ -158,11 +158,11 @@ void HashTable_Remove(HashTable* self, uint8* key, uint32 keyLength) {
 	}
 }
 
-uint8* HashTable_GetInt(HashTable* self, uint64 key, uint8** value, uint32* valueLength) {
+void* HashTable_GetInt(HashTable* self, uint64 key, void** value, uint32* valueLength) {
 	return HashTable_Get(self, (uint8*)&key, sizeof(key), value, valueLength);
 }
 
-void HashTable_AddInt(HashTable* self, uint64 key, uint8* value, uint32 valueLength) {
+void HashTable_AddInt(HashTable* self, uint64 key, void* value, uint32 valueLength) {
 	HashTable_Add(self, (uint8*)&key, sizeof(key), value, valueLength);
 }
 

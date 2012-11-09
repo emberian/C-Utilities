@@ -17,8 +17,6 @@ AsyncHashTable* AsyncHashTable_New() {
 }
 
 void AsyncHashTable_Initialize(AsyncHashTable* table) {
-	uint16 i;
-
 	assert(table != NULL);
 
 	table->BaseTable = HashTable_New();
@@ -38,7 +36,7 @@ void AsyncHashTable_Uninitialize(AsyncHashTable* self) {
 	SAL_Mutex_Free(self->Lock);
 }
 
-uint8* AsyncHashTable_Get(AsyncHashTable* self, uint8* key, uint32 keyLength, uint8** value, uint32* valueLength) {
+void* AsyncHashTable_Get(AsyncHashTable* self, uint8* key, uint32 keyLength, void** value, uint32* valueLength) {
 	uint8* result;
 
 	assert(self != NULL);
@@ -50,7 +48,7 @@ uint8* AsyncHashTable_Get(AsyncHashTable* self, uint8* key, uint32 keyLength, ui
 	return result;
 }
 
-void AsyncHashTable_Add(AsyncHashTable* self, uint8* key, uint32 keyLength, uint8* value, uint32 valueLength) {
+void AsyncHashTable_Add(AsyncHashTable* self, uint8* key, uint32 keyLength, void* value, uint32 valueLength) {
 	assert(self != NULL);
 
 	SAL_Mutex_Acquire(self->Lock);
@@ -66,7 +64,7 @@ void AsyncHashTable_Remove(AsyncHashTable* self, uint8* key, uint32 keyLength) {
 	SAL_Mutex_Release(self->Lock);
 }
 
-uint8* AsyncHashTable_GetInt(AsyncHashTable* self, uint64 key, uint8** value, uint32* valueLength) {
+void* AsyncHashTable_GetInt(AsyncHashTable* self, uint64 key, void** value, uint32* valueLength) {
 	uint8* result;
 
 	assert(self != NULL);
@@ -78,7 +76,7 @@ uint8* AsyncHashTable_GetInt(AsyncHashTable* self, uint64 key, uint8** value, ui
 	return result;
 }
 
-void AsyncHashTable_AddInt(AsyncHashTable* self, uint64 key, uint8* value, uint32 valueLength) {
+void AsyncHashTable_AddInt(AsyncHashTable* self, uint64 key, void* value, uint32 valueLength) {
 	assert(self != NULL);
 
 	SAL_Mutex_Acquire(self->Lock);
