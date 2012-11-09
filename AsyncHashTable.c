@@ -5,7 +5,6 @@
 struct AsyncHashTable {
 	HashTable* BaseTable;
 	SAL_Mutex Lock;
-
 };
 
 AsyncHashTable* AsyncHashTable_New() {
