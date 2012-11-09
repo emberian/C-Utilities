@@ -23,8 +23,8 @@ struct TCPClient {
 	void* State;
 };
 
-public TCPClient* TCPClient_Connect(int8* address, int8* port, TCPClient_OnReceive receiveCallback, TCPClient_OnServerDisconnect serverDisconnectCallback, void* state);
-public boolean TCPClient_Send(TCPClient* client, uint8* buffer, uint16 length);
-public void TCPClient_Disconnect(TCPClient* client);
+export TCPClient* TCPClient_Connect(int8* address, int8* port, TCPClient_OnReceive receiveCallback, TCPClient_OnServerDisconnect serverDisconnectCallback, void* state);
+export boolean TCPClient_Send(TCPClient* client, uint8* buffer, uint16 length);
+export void TCPClient_Disconnect(TCPClient* client);
 
 #endif

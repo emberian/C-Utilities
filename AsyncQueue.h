@@ -10,12 +10,12 @@ typedef struct {
 	Queue* BaseQueue;
 } AsyncQueue;
 
-public AsyncQueue* AsyncQueue_New(void);
-public void AsyncQueue_Initialize(AsyncQueue* queue);
-public void AsyncQueue_Free(AsyncQueue* self);
-public void AsyncQueue_Uninitialize(AsyncQueue* self);
+export AsyncQueue* AsyncQueue_New(void);
+export void AsyncQueue_Initialize(AsyncQueue* queue);
+export void AsyncQueue_Free(AsyncQueue* self);
+export void AsyncQueue_Uninitialize(AsyncQueue* self);
 
-public void* AsyncQueue_Dequeue(AsyncQueue* self);
-public void AsyncQueue_Enqueue(AsyncQueue* self, void* toEnqueue);
+export void* AsyncQueue_Dequeue(AsyncQueue* self);
+export void AsyncQueue_Enqueue(AsyncQueue* self, void* toEnqueue);
 
 #endif

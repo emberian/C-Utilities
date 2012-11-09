@@ -8,12 +8,12 @@ typedef struct {
 	LinkedList Data;
 } Queue;
 
-public Queue* Queue_New(void);
-public void Queue_Initialize(Queue* queue);
-public void Queue_Free(Queue* self);
-public void Queue_Uninitialize(Queue* self);
+export Queue* Queue_New(void);
+export void Queue_Initialize(Queue* queue);
+export void Queue_Free(Queue* self);
+export void Queue_Uninitialize(Queue* self);
 
-public void* Queue_Dequeue(Queue* self);
-public void Queue_Enqueue(Queue* self, void* toEnqueue);
+export void* Queue_Dequeue(Queue* self);
+export void Queue_Enqueue(Queue* self, void* toEnqueue);
 
 #endif

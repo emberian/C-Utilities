@@ -40,9 +40,9 @@ struct TCPServer_Client {
 	uint32 MessageLength; //for websockets only
 };
 
-public TCPServer* TCPServer_Listen(int8* port, boolean isWebSocket, TCPServer_OnConnect connectCallback, TCPServer_OnReceive receiveCallback, TCPServer_OnDisconnect disconnectCallback);
-public boolean TCPServer_Send(TCPServer_Client* client, uint8* buffer, uint16 length);
-public void TCPServer_DisconnectClient(TCPServer_Client* client);
-public void TCPServer_Shutdown(TCPServer* server);
+export TCPServer* TCPServer_Listen(int8* port, boolean isWebSocket, TCPServer_OnConnect connectCallback, TCPServer_OnReceive receiveCallback, TCPServer_OnDisconnect disconnectCallback);
+export boolean TCPServer_Send(TCPServer_Client* client, uint8* buffer, uint16 length);
+export void TCPServer_DisconnectClient(TCPServer_Client* client);
+export void TCPServer_Shutdown(TCPServer* server);
 
 #endif

@@ -4,16 +4,9 @@
 #include <SAL/Common.h>
 
 #ifdef WINDOWS
-	#define public  __declspec(dllexport)
+	#define export  __declspec(dllexport)
 #elif defined __clang__ || defined __GNUC__
-	#define public __attribute__((visibility ("default")))
-#endif
-
-#ifdef WINDOWS
-	/*Windows is private by default*/
-	#define private ;
-#elif defined __clang__ || defined __GNUC__
-	#define private __attribute__((visibility ("hidden")))
+	#define export __attribute__((visibility ("default")))
 #endif
 
 #define true 1

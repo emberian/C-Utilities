@@ -3,6 +3,6 @@
 
 #include "Common.h"
 
-public void Base64Encode(uint8* data, uint32 dataLength, int8** result, uint32* resultLength);
+export void Base64Encode(uint8* data, uint32 dataLength, int8** result, uint32* resultLength);
 
 #endif

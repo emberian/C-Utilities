@@ -10,16 +10,16 @@ typedef struct {
 } String;
 
 
-public String* String_New(uint16 size);
-public String* String_NewFromCString(int8* cString);
-public void String_Initialize(String* string, uint16 size);
-public void String_Free(String* self);
-public void String_Uninitialize(String* self);
+export String* String_New(uint16 size);
+export String* String_NewFromCString(int8* cString);
+export void String_Initialize(String* string, uint16 size);
+export void String_Free(String* self);
+export void String_Uninitialize(String* self);
 
-public void String_AppendCString(String* self, int8* cString);
-public void String_AppendBytes(String* self, int8* bytes, uint16 size);
-public void String_AppendString(String* self, String* source);
+export void String_AppendCString(String* self, int8* cString);
+export void String_AppendBytes(String* self, int8* bytes, uint16 size);
+export void String_AppendString(String* self, String* source);
 
-public boolean String_IsUTF8(String* self);
+export boolean String_IsUTF8(String* self);
 
 #endif

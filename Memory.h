@@ -3,9 +3,9 @@
 
 #include "Common.h"
 
-public void Memory_Free(void* block);
-public void Memory_BlockCopy(uint8* source, uint8* destination, uint64 amount);
-public boolean Memory_Compare(uint8* blockA, uint8* blockB, uint64 lengthA, uint64 lengthB);
+export void Memory_Free(void* block);
+export void Memory_BlockCopy(uint8* source, uint8* destination, uint64 amount);
+export boolean Memory_Compare(uint8* blockA, uint8* blockB, uint64 lengthA, uint64 lengthB);
 
 /**
  * Frees a block of memory allocated by Allocate or AllocateArray
@@ -15,8 +15,8 @@ public boolean Memory_Compare(uint8* blockA, uint8* blockB, uint64 lengthA, uint
 
 #ifdef NDEBUG
 
-public void* Memory_Allocate(uint64 size);
-public void* Memory_Reallocate(void* block, uint64 size);
+export void* Memory_Allocate(uint64 size);
+export void* Memory_Reallocate(void* block, uint64 size);
 
 /**
  * @returns a pointer to a block of memory at least the sizeof @a type.
@@ -37,8 +37,8 @@ public void* Memory_Reallocate(void* block, uint64 size);
 
 #else
 
-public void* Memory_AllocateD(uint64 size, uint64 line, int8* file);
-public void* Memory_ReallocateD(void* block, uint64 size, uint64 line, int8* file);
+export void* Memory_AllocateD(uint64 size, uint64 line, int8* file);
+export void* Memory_ReallocateD(void* block, uint64 size, uint64 line, int8* file);
 
 #define Allocate(type) ((type*)Memory_AllocateD(sizeof(type), __LINE__, __FILE__))
 #define AllocateArray(type, count) ((type*)Memory_AllocateD(sizeof(type) * count, __LINE__, __FILE__))

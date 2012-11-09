@@ -33,23 +33,23 @@ struct LinkedList_Iterator {
 /* Iterates over every item in list using the list's DefaultIterator method. Resets the iterator upon invocation. Used like a while loop. */
 #define LinkedList_ForEach(current, list, type) LinkedList_ResetIterator((list)->DefaultIterator); while ((current) = (type)LinkedList_Iterate((list)->DefaultIterator))
 
-public LinkedList* LinkedList_New(LinkedList_ElementDisposer itemDisposer);
-public void LinkedList_Initialize(LinkedList* list, LinkedList_ElementDisposer itemDisposer);
-public void LinkedList_Free(LinkedList* self);
-public void LinkedList_Uninitialize(LinkedList* self);
+export LinkedList* LinkedList_New(LinkedList_ElementDisposer itemDisposer);
+export void LinkedList_Initialize(LinkedList* list, LinkedList_ElementDisposer itemDisposer);
+export void LinkedList_Free(LinkedList* self);
+export void LinkedList_Uninitialize(LinkedList* self);
 
-public void* LinkedList_FindValue(LinkedList* self, void* toFind);
-public Node* LinkedList_FindNode(LinkedList* self, void* toFind);
+export void* LinkedList_FindValue(LinkedList* self, void* toFind);
+export Node* LinkedList_FindNode(LinkedList* self, void* toFind);
 
-public void* LinkedList_Iterate(LinkedList_Iterator* iterator);
-public void LinkedList_InitializeIterator(LinkedList_Iterator* iterator, LinkedList* list);
-public void LinkedList_ResetIterator(LinkedList_Iterator* iterator);
+export void* LinkedList_Iterate(LinkedList_Iterator* iterator);
+export void LinkedList_InitializeIterator(LinkedList_Iterator* iterator, LinkedList* list);
+export void LinkedList_ResetIterator(LinkedList_Iterator* iterator);
 
-public void LinkedList_Clear(LinkedList* self);
-public void LinkedList_Remove(LinkedList* self, void* data);
-public void LinkedList_RemoveNode(LinkedList* self, Node* node);
-public void LinkedList_Prepend(LinkedList* self, void* data);
-public void LinkedList_Append(LinkedList* self, void* data);
-public void LinkedList_Insert(LinkedList_Iterator* iterator, void* data);
+export void LinkedList_Clear(LinkedList* self);
+export void LinkedList_Remove(LinkedList* self, void* data);
+export void LinkedList_RemoveNode(LinkedList* self, Node* node);
+export void LinkedList_Prepend(LinkedList* self, void* data);
+export void LinkedList_Append(LinkedList* self, void* data);
+export void LinkedList_Insert(LinkedList_Iterator* iterator, void* data);
 
 #endif
