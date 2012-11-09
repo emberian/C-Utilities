@@ -11,13 +11,13 @@ typedef struct {
 
 
 public String* String_New(uint16 size);
-public String* String_NewFromCString(const int8* cString);
+public String* String_NewFromCString(int8* cString);
 public void String_Initialize(String* string, uint16 size);
 public void String_Free(String* self);
 public void String_Uninitialize(String* self);
 
-public void String_AppendCString(String* self, const int8* cString);
-public void String_AppendBytes(String* self, const int8* bytes, uint16 size);
+public void String_AppendCString(String* self, int8* cString);
+public void String_AppendBytes(String* self, int8* bytes, uint16 size);
 public void String_AppendString(String* self, String* source);
 
 public boolean String_IsUTF8(String* self);

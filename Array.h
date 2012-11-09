@@ -10,7 +10,7 @@ typedef struct {
 } Array;
 
 public Array* Array_New(uint64 size);
-public Array* Array_NewFromExisting(const uint8* data, uint64 size);
+public Array* Array_NewFromExisting(uint8* data, uint64 size);
 public void Array_Initialize(Array* array, uint64 size);
 public void Array_Free(Array* self);
 public void Array_Uninitialize(Array* self);
@@ -18,7 +18,7 @@ public void Array_Uninitialize(Array* self);
 public void Array_Resize(Array* self, uint64 newSize);
 public uint8* Array_Read(Array* self, uint64 position, uint64 amount);
 public void Array_ReadTo(Array* self, uint64 position, uint64 amount, uint8* targetBuffer);
-public void Array_Write(Array* self, const uint8* data, uint64 position, uint64 amount);
-public void Array_Append(Array* self, const Array* source);
+public void Array_Write(Array* self, uint8* data, uint64 position, uint64 amount);
+public void Array_Append(Array* self, Array* source);
 
 #endif

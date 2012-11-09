@@ -11,8 +11,8 @@
 /* forward declarations */
 typedef struct TCPClient TCPClient;
 
-typedef void (*TCPClient_OnServerDisconnect)(const TCPClient* const client, void* state);
-typedef void (*TCPClient_OnReceive)(const TCPClient* const client, void* state, const uint8* const buffer, const uint16 length);
+typedef void (*TCPClient_OnServerDisconnect)(TCPClient* client, void* state);
+typedef void (*TCPClient_OnReceive)(TCPClient* client, void* state, uint8* buffer, uint16 length);
 
 struct TCPClient {
 	SAL_Socket* Server;
@@ -23,8 +23,8 @@ struct TCPClient {
 	void* State;
 };
 
-public TCPClient* TCPClient_Connect(const int8* const address, const int8* const port, const TCPClient_OnReceive receiveCallback, const TCPClient_OnServerDisconnect serverDisconnectCallback, void* state);
-public boolean TCPClient_Send(TCPClient* const client, const uint8* const buffer, const uint16 length);
-public void TCPClient_Disconnect(TCPClient* const client);
+public TCPClient* TCPClient_Connect(int8* address, int8* port, TCPClient_OnReceive receiveCallback, TCPClient_OnServerDisconnect serverDisconnectCallback, void* state);
+public boolean TCPClient_Send(TCPClient* client, uint8* buffer, uint16 length);
+public void TCPClient_Disconnect(TCPClient* client);
 
 #endif

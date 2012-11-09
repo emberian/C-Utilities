@@ -1,6 +1,6 @@
 #include "TCPClient.h"
 
-static void ClientReadCallback(SAL_Socket* socket, void* const state) {
+static void ClientReadCallback(SAL_Socket* socket, void* state) {
 	TCPClient* client;
 	uint32 received;
 	uint32 excess;
@@ -48,7 +48,7 @@ static void ClientReadCallback(SAL_Socket* socket, void* const state) {
 
 
 
-TCPClient* TCPClient_Connect(const int8* const address, const int8* const port, const TCPClient_OnReceive receiveCallback, const TCPClient_OnServerDisconnect serverDisconnectCallback, void* state) {
+TCPClient* TCPClient_Connect(int8* address, int8* port, TCPClient_OnReceive receiveCallback, TCPClient_OnServerDisconnect serverDisconnectCallback, void* state) {
 	TCPClient* client;
 
 	client = Allocate(TCPClient);
@@ -69,7 +69,7 @@ TCPClient* TCPClient_Connect(const int8* const address, const int8* const port, 
 	return client;
 }
 
-boolean TCPClient_Send(TCPClient* const client, const uint8* const buffer, const uint16 length) {
+boolean TCPClient_Send(TCPClient* client, uint8* buffer, uint16 length) {
 	assert(client != NULL);
 	assert(client->Server != NULL);
 	assert(buffer != NULL);
@@ -82,7 +82,7 @@ boolean TCPClient_Send(TCPClient* const client, const uint8* const buffer, const
 	return true;
 }
 
-void TCPClient_Disconnect(TCPClient* const client) {
+void TCPClient_Disconnect(TCPClient* client) {
 	assert(client != NULL);
 	assert(client->Server != NULL);
 

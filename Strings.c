@@ -11,7 +11,7 @@ String* String_New(uint16 size) {
 	return string;
 }
 
-String* String_NewFromCString(const int8* cString) {
+String* String_NewFromCString(int8* cString) {
 	String* string;
 	uint16 size;
 
@@ -43,7 +43,7 @@ void String_Uninitialize(String* self) {
 	self->Length = 0;
 }
 
-void String_AppendCString(String* self, const int8* cString) {
+void String_AppendCString(String* self, int8* cString) {
 	uint16 size;
 
 	assert(self != NULL);
@@ -51,15 +51,15 @@ void String_AppendCString(String* self, const int8* cString) {
 
 	size = (uint16)strlen(cString);
 
-	Array_Write(&self->Data, (const uint8*)cString, self->Length, size);
+	Array_Write(&self->Data, (uint8*)cString, self->Length, size);
 	self->Length += size;
 }
 
-void String_AppendBytes(String* self, const int8* bytes, uint16 size) {
+void String_AppendBytes(String* self, int8* bytes, uint16 size) {
 	assert(self != NULL);
 	assert(bytes != NULL);
 
-	Array_Write(&self->Data, (const uint8*)bytes, self->Length, size);
+	Array_Write(&self->Data, (uint8*)bytes, self->Length, size);
 	self->Length += size;
 }
 

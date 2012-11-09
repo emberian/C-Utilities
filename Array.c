@@ -29,7 +29,7 @@ Array* Array_New(uint64 size) {
  * @param size New size of array
  * @returns pointer to newly created array
  */
-Array* Array_NewFromExisting(const uint8* data, uint64 size) {
+Array* Array_NewFromExisting(uint8* data, uint64 size) {
 	Array* array;
 	uint64 actualSize;
 
@@ -155,7 +155,7 @@ void Array_ReadTo(Array* self, uint64 position, uint64 amount, uint8* targetBuff
  * @param data Data to write
  * @param amount Number of bytes to write from @a data
  */
-void Array_Write(Array* self, const uint8* data, uint64 position, uint64 amount) {
+void Array_Write(Array* self, uint8* data, uint64 position, uint64 amount) {
 	assert(self != NULL);
 
 	if (position + amount > self->Size) Array_Resize(self, position + amount);
@@ -169,7 +169,7 @@ void Array_Write(Array* self, const uint8* data, uint64 position, uint64 amount)
  * @param self Array to append to
  * @param source Array to append from
  */
-void Array_Append(Array* self, const Array* source) {
+void Array_Append(Array* self, Array* source) {
 	assert(self != NULL && source != NULL);
 
 	Array_Resize(self, self->Size + source->Size);
