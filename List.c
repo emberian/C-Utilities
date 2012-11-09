@@ -11,18 +11,18 @@ List* List_New(List_ElementDisposer elementDisposer) {
 }
 
 void List_Initialize(List* list, List_ElementDisposer elementDisposer) {
-    assert(list != NULL);
+	assert(list != NULL);
 
-    list->Cursor = 0;
+	list->Cursor = 0;
 	list->Count = 0;
-    list->Disposer = elementDisposer;
+	list->Disposer = elementDisposer;
 	list->DefaultIterator = Allocate(List_Iterator);
-    List_InitializeIterator(list->DefaultIterator, list);
+	List_InitializeIterator(list->DefaultIterator, list);
 	Array_Initialize(&list->DataStore, 64);
 }
 
 void List_Free(List* self) {
-    List_Uninitialize(self);
+	List_Uninitialize(self);
 	
 	Free(self);
 }
@@ -30,7 +30,7 @@ void List_Free(List* self) {
 void List_Uninitialize(List* self) {
 	void* current;
 
-    assert(self != NULL);
+	assert(self != NULL);
 
 	if (self->Disposer) {
 		List_ResetIterator(self->DefaultIterator);
@@ -38,10 +38,10 @@ void List_Uninitialize(List* self) {
 			self->Disposer(current);
 	}
 	
-    self->Count = 0;
-    self->Cursor = 0;
-    self->Disposer = NULL;
-    Free(self->DefaultIterator);
+	self->Count = 0;
+	self->Cursor = 0;
+	self->Disposer = NULL;
+	Free(self->DefaultIterator);
 	Array_Uninitialize(&self->DataStore);
 }
 
@@ -68,7 +68,7 @@ void* List_Iterate(List_Iterator* iterator) {
 	if (iterator->Position < iterator->ParentList->Count) {
 		data = *(uint64*)Array_Read(&iterator->ParentList->DataStore, iterator->Position * sizeof(void*), sizeof(void*));
 		address = (void*)data;
-        iterator->Position++;
+		iterator->Position++;
 	}
 
 	return address;
@@ -78,8 +78,8 @@ void List_InitializeIterator(List_Iterator* iterator, List* list) {
 	assert(iterator != NULL);
 	assert(list != NULL);
 
-    iterator->Position = 0;
-    iterator->ParentList = list;
+	iterator->Position = 0;
+	iterator->ParentList = list;
 }
 
 void List_ResetIterator(List_Iterator* iterator) {

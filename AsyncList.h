@@ -5,7 +5,6 @@
 #include "List.h"
 #include <SAL/Thread.h>
 
-/* forward declarations */
 typedef struct AsyncList AsyncList;
 typedef struct AsyncList_Iterator AsyncList_Iterator;
 
@@ -16,7 +15,7 @@ struct AsyncList {
 };
 
 struct AsyncList_Iterator {
-    AsyncList* BaseList;
+	AsyncList* BaseList;
 	List_Iterator BaseIterator;
 };
 

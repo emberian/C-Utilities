@@ -12,6 +12,7 @@ typedef struct {
 } AsyncLookup;
 
 #define AsyncLookup_Find(lookup, key, type) ((type)AsyncLookup_FindValue((lookup), (key)))
+#define AsyncLookup_FindInt(lookup, key, type) ((type)AsyncLookup_FindValue((lookup), (uint8*)&(key)))
 
 public AsyncLookup* AsyncLookup_New(Lookup_ElementDisposer elementDisposer);
 public void AsyncLookup_Initialize(AsyncLookup* lookup, Lookup_ElementDisposer elementDisposer);

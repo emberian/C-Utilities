@@ -10,20 +10,20 @@ AsyncLookup* AsyncLookup_New(Lookup_ElementDisposer elementDisposer) {
 }
 
 void AsyncLookup_Initialize(AsyncLookup* lookup, Lookup_ElementDisposer elementDisposer) {
-    assert(lookup != NULL);
+	assert(lookup != NULL);
 
 	lookup->BaseLookup = Lookup_New(elementDisposer);
 	lookup->Lock = SAL_Mutex_Create();
 }
 
 void AsyncLookup_Free(AsyncLookup* self) {
-    AsyncLookup_Uninitialize(self);
+	AsyncLookup_Uninitialize(self);
 	
 	Free(self);
 }
 
 void AsyncLookup_Uninitialize(AsyncLookup* self) {
-    assert(self != NULL);
+	assert(self != NULL);
 
 	Lookup_Free(self->BaseLookup);
 	SAL_Mutex_Free(self->Lock);

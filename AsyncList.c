@@ -11,7 +11,7 @@ AsyncList* AsyncList_New(List_ElementDisposer elementDisposer) {
 }
 
 void AsyncList_Initialize(AsyncList* list, List_ElementDisposer elementDisposer) {
-    assert(list != NULL);
+	assert(list != NULL);
 
 	list->BaseList = List_New(elementDisposer);
 	list->Lock = SAL_Mutex_Create();
@@ -20,13 +20,13 @@ void AsyncList_Initialize(AsyncList* list, List_ElementDisposer elementDisposer)
 }
 
 void AsyncList_Free(AsyncList* self) {
-    AsyncList_Uninitialize(self);
+	AsyncList_Uninitialize(self);
 	
 	Free(self);
 }
 
 void AsyncList_Uninitialize(AsyncList* self) {
-    assert(self != NULL);
+	assert(self != NULL);
 
 	List_Free(self->BaseList);
 	SAL_Mutex_Free(self->Lock);
@@ -70,8 +70,8 @@ void AsyncList_InitializeIterator(AsyncList_Iterator* iterator, AsyncList* list)
 	assert(list != NULL);
 	
 	SAL_Mutex_Acquire(list->Lock);
-    iterator->BaseList = list;
-    List_InitializeIterator(&iterator->BaseIterator, list->BaseList);
+	iterator->BaseList = list;
+	List_InitializeIterator(&iterator->BaseIterator, list->BaseList);
 	SAL_Mutex_Release(list->Lock);
 }
 

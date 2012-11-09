@@ -10,19 +10,19 @@ Lookup* Lookup_New(Lookup_ElementDisposer elementDisposer) {
 }
 
 void Lookup_Initialize(Lookup* lookup, Lookup_ElementDisposer elementDisposer) {
-    assert(lookup != NULL);
+	assert(lookup != NULL);
 
 	LinkedList_Initialize(&lookup->Entries, elementDisposer);
 }
 
 void Lookup_Free(Lookup* self) {
-    Lookup_Uninitialize(self);
+	Lookup_Uninitialize(self);
 	
 	Free(self);
 }
 
 void Lookup_Uninitialize(Lookup* self) {
-    assert(self != NULL);
+	assert(self != NULL);
 
 	LinkedList_Uninitialize(&self->Entries);
 }

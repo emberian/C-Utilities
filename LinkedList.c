@@ -45,7 +45,7 @@ void LinkedList_Uninitialize(LinkedList* self) {
 	self->Disposer = NULL;
 	self->First = NULL;
 	self->Last = NULL;
-    Free(self->DefaultIterator);
+	Free(self->DefaultIterator);
 }
 
 void* LinkedList_FindValue(LinkedList* self, void* toFind) {
@@ -115,7 +115,7 @@ void LinkedList_ResetIterator(LinkedList_Iterator* iterator) {
 void LinkedList_Clear(LinkedList* self) {
 	Node* prior;
 
-    assert(self != NULL);
+	assert(self != NULL);
 
 	while (self->First != NULL) {
 		if (self->Disposer)
@@ -126,8 +126,8 @@ void LinkedList_Clear(LinkedList* self) {
 		Free(prior);
 	}
 
-    self->First = NULL;
-    self->Last = NULL;
+	self->First = NULL;
+	self->Last = NULL;
 	self->Count = 0;
 	LinkedList_ResetIterator(self->DefaultIterator);
 }
